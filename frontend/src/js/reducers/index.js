@@ -1,4 +1,4 @@
-import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE} from '../constants/action-types'
+import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE, REST_REVIEWS, CUST_ORDERS, CUST_ORDER_DETAILS, REST_ORDERS, REST_ORDER_DETAILS} from '../constants/action-types'
 const startState = {
     info:null
 }
@@ -151,13 +151,42 @@ function defaultReducer(state = startState, action){
         console.log("Gathering Dish Data")
         return Object.assign({},state,{
             info: action.input.message,
-            dishid: action.input.dishid,
-            dishname: action.input.dishname,
-            message : "Dish Data!",
-            dishdescription : action.input.dishdescription,
-            dishcategory : action.input.dishcategory,
-            mainingre : action.input.mainingre,
-            dishprice : action.input.dishprice 
+            dishes: action.input.dishes
+        })
+    }
+    else if(action.type === REST_REVIEWS){
+        console.log("Gathering Restaurant Reviews")
+        return Object.assign({},state,{
+            info: action.input.message,
+            reviews: action.input.reviews
+        })
+    }
+    else if(action.type === CUST_ORDERS){
+        console.log("Gathering Customers Orders")
+        return Object.assign({}, state, {
+            info: action.input.message,
+            orders: action.input.orders
+        })
+    }
+    else if(action.type === CUST_ORDER_DETAILS){
+        console.log("Gathering Customer Order Details")
+        return Object.assign({}, state, {
+            info_orddets: action.input.message,
+            orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === REST_ORDERS){
+        console.log("Gathering Rest Orders")
+        return Object.assign({}, state, {
+            info: action.input.message,
+            orders: action.input.orders
+        })
+    }
+    else if(action.type === REST_ORDER_DETAILS){
+        console.log("Gathering Restaurant Order Details")
+        return Object.assign({}, state, {
+            info_orderdets: action.input.message,
+            orderdetails: action.input.orderdetails
         })
     }
     return state;

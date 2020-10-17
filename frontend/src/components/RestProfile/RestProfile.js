@@ -212,5 +212,4 @@ function mapStateToProps(store){
 const RestaurantProfile = connect(mapStateToProps, mapDispatchToProps)(RestProfile);
 export default RestaurantProfile;
 
-//export default CustProfile;
 

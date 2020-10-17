@@ -3,6 +3,9 @@ import axios from 'axios'
 import {Card} from 'antd'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import { connURL } from '../../Configure';
+import {connect} from 'react-redux';  
+import { restReviews} from '../../js/actions'
+
 
 class RestReviews extends Component {
 
@@ -17,21 +20,7 @@ class RestReviews extends Component {
         var data = {
             userid :  window.sessionStorage.getItem("UserID"),
         }
-        axios.post(`${connURL}/getReview`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    this.setState({
-                        reviews : response.data
-                    })
-                    console.log(this.state.reviews)
-                    
-                }else{
-                }
-            })
-            .catch(err => {
-                //document.getElementById("invalidLog").style.display='block';
-            })
+        this.props.restReviews(data);
             
     }
 
@@ -61,7 +50,24 @@ class RestReviews extends Component {
 
 
     render() {
-        
+        var temp = null;
+        console.log("TEMP IS:" ,temp)
+
+        if(this.props.reviews!== undefined){
+            console.log(this.props.reviews)
+            temp = this.props.reviews.map(review => {
+                return( 
+                        <div>
+                            <Card title="Review!" bordered={true} style={{ width: 300, borderStyle:"solid", borderWidth:1, marginTop:10, borderColor:"#cfcfcf", borderRadius: 5, padding: 10, fontWeight: "bold"}}>
+                                <p style={{marginTop:10, color: "#d32323"}}>Rating : {review.reviewno}</p>
+                                <p>Review : {review.reviewdesc}</p>
+                                <p style = {{color: "#d32323"}}class = "cust-link" onClick={ () => this.getUserDetails(review.userid) }>User ID : {review.userid}</p>
+                            </Card>
+                        </div>
+                )  
+                })
+        }
+
         return (
             <div>
                 <HeaderBar/>
@@ -73,16 +79,7 @@ class RestReviews extends Component {
                         
                     </div>
                     <div class = "column-right-update">
-                        {Object.keys(this.state.reviews).map(i => 
-                            <div>
-                                <Card title="Review!" bordered={true} style={{ width: 300, borderStyle:"solid", borderWidth:1, marginTop:10, borderColor:"#cfcfcf", borderRadius: 5, padding: 10, fontWeight: "bold"}}>
-                                    <p style={{marginTop:10, color: "#d32323"}}>Rating : {this.state.reviews[i].reviewno}</p>
-                                    <p>Review : {this.state.reviews[i].reviewdesc}</p>
-                                    <p style = {{color: "#d32323"}}class = "cust-link" onClick={ () => this.getUserDetails(this.state.reviews[i].userid) }>User ID : {this.state.reviews[i].userid}</p>
-                                </Card>
-                            </div>
-                            
-                        )}
+                        {temp}
                     </div>
                 </div>
                 
@@ -91,4 +88,19 @@ class RestReviews extends Component {
     }
 }
 
-export default RestReviews
+function mapDispatchToProps(dispatch){
+    return{
+        restReviews: user => dispatch(restReviews(user))
+    };
+}
+
+function mapStateToProps(store){
+    console.log(store);
+    return{
+        message: store.info,
+        reviews: store.reviews
+    };
+}
+
+const RestaurantReviews = connect(mapStateToProps, mapDispatchToProps)(RestReviews);
+export default RestaurantReviews;

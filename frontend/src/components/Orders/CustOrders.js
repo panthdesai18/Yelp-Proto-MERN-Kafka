@@ -3,6 +3,8 @@ import axios from 'axios'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import Checkbox from '@material-ui/core/Checkbox';
 import { connURL } from '../../Configure';
+import {connect} from 'react-redux';  
+import { custOrderDetails, custOrders } from '../../js/actions';
 
 class CustOrders extends Component {
 
@@ -18,47 +20,28 @@ class CustOrders extends Component {
         var data = {
             userid :  window.sessionStorage.getItem("UserID")
         }
-        console.log(data)
-        axios.post(`${connURL}/getUserOrders`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    console.log("HERE IN ACTIONS - GETTING User Orders!")
-                    console.log(response.data);
-                    this.setState(
-                    {
-                        custorderdetails: response.data
-                    })
-                    console.log("Order Details!"+this.state.custorderdetails);
-                    Object.keys(this.state.custorderdetails).map(i => 
-                        console.log(this.state.custorderdetails[i])
-                    )
-                }else{
-                }
-            })
-            .catch(err => {
-                
-        })
-        axios.post(`${connURL}/getUserOrderDetails`,data)
-            .then(response =>{
-                console.log("Status Code : ", response.status);
-                if(response.status === 200){
-                    console.log("HERE IN ACTION - GETTING USER ORDER DETAILS!")
-                    console.log(response.data);
-                    this.setState({
-                        custorder: response.data
-                    })
-                    Object.keys(this.state.custorder).map(i => 
-                        console.log(this.state.custorder[i])
-                    )
-                }
-                else{
+        this.props.custOrders(data);
+        this.props.custOrderDetails(data);
+        // axios.post(`${connURL}/getUserOrderDetails`,data)
+        //     .then(response =>{
+        //         console.log("Status Code : ", response.status);
+        //         if(response.status === 200){
+        //             console.log("HERE IN ACTION - GETTING USER ORDER DETAILS!")
+        //             console.log(response.data);
+        //             this.setState({
+        //                 custorder: response.data
+        //             })
+        //             Object.keys(this.state.custorder).map(i => 
+        //                 console.log(this.state.custorder[i])
+        //             )
+        //         }
+        //         else{
 
-                }
-            })
-            .catch(err =>{
+        //         }
+        //     })
+        //     .catch(err =>{
 
-            })
+        //     })
     }
 
     submitDelivered = () =>{
@@ -169,26 +152,27 @@ class CustOrders extends Component {
     render() {
         let temp=null;
 
-        temp=this.state.custorder.map(i => {
-            console.log("CUST ORDER",i.orderid, i.status)
-            return (<div style ={{borderStyle:"solid", borderWidth:1 , width: 300, marginTop: 20, padding:10, borderRadius: 5, borderColor: "#cfcfcf"}}>
-                        <p style={{fontWeight:"bold"}}>Order # {i.orderid}</p>
-                        <p style={{fontWeight:"bold", color: "#d32323"}}>Restaurant #: {i.restid}</p>
-                        <p style={{fontWeight:"bold"}}>Status : {i.status}</p>
-                        
-                        {                            
-                            this.state.custorderdetails.map(j => {
-                                if(j.orderid === i.orderid.toString()){
-                                    return(
-                                        <h4 style={{color: "#d32323"}}>{j.dishName}</h4>
-                                    )
-                                }
-                            })
-                        }
-                    </div>)
-        })
+        if(this.props.orderdetails !== undefined){
+            console.log("PROPS DETAILS", this.props.orderdetails)
+            temp=this.props.orderdetails.map(i => {
+                console.log("CUST ORDER",i.orderid, i.status)
+                return (<div style ={{borderStyle:"solid", borderWidth:1 , width: 300, marginTop: 20, padding:10, borderRadius: 5, borderColor: "#cfcfcf"}}>
+                            <p style={{fontWeight:"bold"}}>Order # {i.orderid}</p>
+                            <p style={{fontWeight:"bold", color: "#d32323"}}>Restaurant #: {i.restid}</p>
+                            <p style={{fontWeight:"bold"}}>Status : {i.status}</p>
+                            {                            
+                                this.props.orders.map(j => {
+                                    if(j.orderid === i.orderid.toString()){
+                                        return(
+                                            <h4 style={{color: "#d32323"}}>{j.dishName}</h4>
+                                        )
+                                    }
+                                })
+                            }
+                        </div>)
+            })
+        }
 
-        console.log(this.state.custorderdetails)
         return (
             <div>
                 <HeaderBar/>
@@ -232,4 +216,22 @@ class CustOrders extends Component {
     }
 }
 
-export default CustOrders;
+function mapDispatchToProps(dispatch){
+    return{
+        custOrders: user => dispatch(custOrders(user)),
+        custOrderDetails: user => dispatch(custOrderDetails(user))
+    };
+}
+
+function mapStateToProps(store){
+    console.log(store);
+    return{
+        message: store.info,
+        message2: store.info_orddets,
+        orders: store.orders,
+        orderdetails: store.orderdetails
+    };
+}
+
+const CustomerOrders = connect(mapStateToProps, mapDispatchToProps)(CustOrders);
+export default CustomerOrders;

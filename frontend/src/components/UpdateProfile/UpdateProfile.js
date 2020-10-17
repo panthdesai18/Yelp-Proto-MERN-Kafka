@@ -4,7 +4,6 @@ import { Image } from 'semantic-ui-react'
 import Button from 'react-bootstrap/Button';
 import {getProfile, postProfile} from '../../js/actions/index'
 import {connect} from 'react-redux'
-import axios from 'axios';
 
 class UpdateProfile extends Component {
 

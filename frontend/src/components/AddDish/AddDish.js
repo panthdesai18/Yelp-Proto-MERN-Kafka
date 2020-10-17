@@ -81,20 +81,6 @@ class AddDish extends Component {
             userid:window.sessionStorage.getItem("UserID")
         }
         this.props.addDish(data);
-        //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/signUp',data)
-        //     .then(response => {
-        //         console.log("Status Code : ",response.status);
-        //         if(response.status === 200){
-                    
-        //         }else{
-        //         }
-        //     })
-        //     .catch(err => {
-        //         //document.getElementById("invalidLog").style.display='block';
-        //     })
     }
     
     render() {

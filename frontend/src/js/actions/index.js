@@ -1,4 +1,4 @@
-import {ADD_DISH, CUST_POST_UPDATE, CUST_SIGNUP} from '../constants/action-types'
+import {ADD_DISH, CUST_ORDERS, CUST_ORDER_DETAILS, CUST_POST_UPDATE, CUST_SIGNUP, REST_ORDERS, REST_ORDER_DETAILS, REST_REVIEWS} from '../constants/action-types'
 import {CUST_LOGIN} from '../constants/action-types'
 import {CUST_PROFILE} from '../constants/action-types'
 import {CUST_GET_UPDATE} from '../constants/action-types'
@@ -11,6 +11,7 @@ import {REST_POST_UPDATE} from '../constants/action-types'
 import {DISH_PROFILE} from '../constants/action-types'
 import axios from 'axios';
 import { connURL } from '../../Configure'
+import { SizeContextProvider } from 'antd/lib/config-provider/SizeContext'
 
 export function signUp(payload){
     console.log("Attempting User Creation!")
@@ -381,16 +382,9 @@ export function dishProfile(payload){
                 console.log("Status Code : ",response.status);
                 if(response.status === 200){
                     console.log("HERE IN ACTIONS - GETTING DISH DATA!")
-                    console.log(response.data)
-                    console.log("firstname", response.data.dishname)
                     input ={
-                        message : "User Data!",
-                        dishid: response.data.dishid,
-                        dishname : response.data.dishname,
-                        dishdescription : response.data.description,
-                        dishcategory : response.data.category,
-                        mainingre : response.data.mainingre,
-                        dishprice : response.data.price 
+                        message : "Dishes Data!",
+                        dishes : response.data 
                     }
                 }else{
                 }
@@ -402,6 +396,125 @@ export function dishProfile(payload){
     }
 }
 
+export function restReviews(payload){
+    console.log("Gathering Restaurant Reviews!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getReview`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING REST REVIEWS!")
+                    input ={
+                        message: "Reviews Data!",
+                        reviews: response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: REST_REVIEWS, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function custOrders(payload){
+    console.log("Gathering Customer Orders!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getUserOrders`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING CUST ORDERS!")
+                    input = {
+                        message: "Cust Orders Data!",
+                        orders: response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: CUST_ORDERS, input})
+            })
+            .catch( err => {
+
+            })
+    }
+}
+
+export function custOrderDetails(payload){
+    console.log("Gathering Customer Order Details!")
+    let input = {}
+    return (dispatch) => {
+        axios.post(`${connURL}/getUserOrderDetails`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTION - GETTING CUSTOMER ORDER DETAILS!")
+                    input = {
+                        message: "Cust Order Details Data!",
+                        orderdetails: response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: CUST_ORDER_DETAILS, input})
+            })
+            .catch( err => {
+
+            })
+    }
+}
+
+export function restOrders(payload){
+    console.log("Gathering Restaurant Order!")
+    let input ={}
+    return (dispatch) => {
+        axios.post(`${connURL}/getRestOrders`,payload)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING REST ORDERS!")
+                    input = {
+                        message: "Rest Order Data!",
+                        orders: response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: REST_ORDERS, input})
+            })
+            .catch( err => {
+
+            })
+    }
+}
+
+export function restOrderDetails(payload){
+    console.log("Gathering Restaurant Order Details!")
+    let input = {}
+    return (dispatch) => {
+        axios.post(`${connURL}/getRestOrderDetails`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING REST ORDER DETAILS!")
+                    input = {
+                        message: "Rest Order Details Data!",
+                        orderdetails: response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: REST_ORDER_DETAILS, input})
+            })
+            .catch(err => {
+                
+            })
+    }
+}
 
 export function logout(payload){
     console.log("Attempting User Creation!")
