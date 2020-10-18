@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faDirections, faMailBulk, faPhone, faStar, faUtensilSpoon } from '@fortawesome/free-solid-svg-icons';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
 import { connURL } from '../../Configure';
-
+import { connect } from 'react-redux'
+import { getAllDish, getUniqRest } from '../../js/actions';
 
 class ViewUniRest extends Component {
 
@@ -86,46 +87,36 @@ class ViewUniRest extends Component {
             userid : this.props.match.params.restid
         }
         console.log(data)
-        axios.post(`${connURL}/getRestData`,data)
-            .then(response => {
-                console.log("Status Code in View Dish : ",response.status);
-                if(response.status === 200){
-                    console.log("HERE IN ACTIONS - GETTING REST DATA!")
-                    console.log(response.data);
-                    this.setState(
-                    {
-                        rest : response.data,
-                        nodishes: false
-                    })
-                    console.log("REST IS"+this.state.rest);
-                    Object.keys(this.state.rest).map(i => 
-                        console.log(this.state.rest[i])
-                    )
-                }else{
-                }
-            })
-            .catch(err => {
-                
-        })
-        axios.post(`${connURL}/getDishes`,data)
-            .then(response =>{
-                console.log("Status Code in Get Dishes:", response.status);
-                if(response.status === 200){
-                    console.log("HERE IN ACTION -GETTING DISHES")
-                    console.log(response.data);
-                    this.setState({
-                        dishes: response.data
-                    })
-                    console.log("DISHES IN THIS REST ARE"+ this.state.dishes);
-                    Object.keys(this.state.dishes).map(i=>
-                        console.log(this.state.dishes[i]))
-                }
-            })
+        this.props.getUniqRest(data)
+        this.props.getAllDish(data)
     }
 
 
 
     render() {
+        let temp = null;
+        if(this.props.dishes !== undefined){
+            temp = this.props.dishes.map( i => {
+                return (
+                    <Card style={{width:350,borderStyle:"solid",borderWidth:1, marginTop: 10, borderRadius: 3, padding: 5, borderColor: "#cfcfcf"}}>
+                        <CardImg top width="100%" height="250px"src = {`${connURL}/profimages/` + i.dishphoto} alt="Dish Image" />
+                        <CardBody>
+                            <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{i.dishname}</CardTitle>
+                            <CardSubtitle style={{fontSize:16,marginTop:10}}>{i.category}</CardSubtitle>
+                            <CardText style={{marginTop:10}}>{i.description}</CardText>
+                            <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>$ {i.price}</CardText>
+                            <Button style={{width:338, backgroundColor:"#d32323", color: "white", fontWeight: "bold"}}onClick = { () =>this.submitAddToCart(i.dishid)}>Add to Cart</Button>
+                        </CardBody>
+                    </Card>
+                )
+            })
+        }
+        let temp2 = null;
+        if(this.props.rest !== undefined){
+            temp2 = this.props.rest
+            console.log("TEMP 2 is : ", temp2)
+        }
+        console.log("Props are : ", this.props)
         return (
             <div>
                 <HeaderBar></HeaderBar>
@@ -159,31 +150,18 @@ class ViewUniRest extends Component {
                         <h3> Enter Your Review</h3>
                             <input type="number" style={{height:30,width:200, borderRadius:5}} placeholder="Rating (Out of 5)" onChange = {this.reviewnumber}></input><br></br>
                             <input type="text" style={{height:30,width:200, borderRadius:5, marginTop:7}} placeholder="Description" onChange = {this.reviewdesc}></input><br></br>
-                            <Button onClick={this.submitReviewAdd} style={{backgroundColor:"#F43939", color:"white", marginTop:9, width:200}}><FontAwesomeIcon icon={faStar}></FontAwesomeIcon> &nbsp; Write A Review</Button>
+                            <Button onClick={this.submitReviewAdd} style={{backgroundColor:"#d32323", color:"white", marginTop:9, width:200}}><FontAwesomeIcon icon={faStar}></FontAwesomeIcon> &nbsp; Write A Review</Button>
                         </div>
                         <div style={{marginLeft:190}}>
                             <div style= {{marginTop: 50}}>
-                                {
-                                    Object.keys(this.state.dishes).map(i => 
-                                        <Card style={{width:350,borderStyle:"solid",borderWidth:1, marginTop: 10, borderRadius: 3, padding: 5, borderColor: "#cfcfcf"}}>
-                                        <CardImg top width="100%" height="250px"src = {`${connURL}/profimages/` + this.state.dishes[i].dishphoto} alt="Dish Image" />
-                                        <CardBody>
-                                        <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{this.state.dishes[i].dishname}</CardTitle>
-                                        <CardSubtitle style={{fontSize:16,marginTop:10}}>{this.state.dishes[i].category}</CardSubtitle>
-                                        <CardText style={{marginTop:10}}>{this.state.dishes[i].description}</CardText>
-                                        <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>$ {this.state.dishes[i].price}</CardText>
-                                        <Button style={{width:338, backgroundColor:"#d32323", color: "white", fontWeight: "bold"}}onClick = { () =>this.submitAddToCart(this.state.dishes[i].dishid)}>Add to Cart</Button>
-                                        </CardBody>
-                                        </Card>
-                                    )
-                                }
+                                {temp}
                             </div>
                             
                         </div>
                         
                     </div>
                     <div class="column-right-rest">
-                        {/* <div style={{marginLeft: 100}}>
+                        <div style={{marginLeft: 100}}>
                         <div style={{height:141, width:380, padding: 30, borderStyle:"solid", borderRadius:3, borderWidth:1, borderColor:"#cfcfcf"}}>
                             <h3 style = {{marginLeft: 50}}>Mention Yelp for Specials</h3>
                             <Button style={{backgroundColor:"#d32323", color: "white", width:210, marginLeft: 50}}>Buy Now</Button>
@@ -222,7 +200,7 @@ class ViewUniRest extends Component {
                                     </li>
                                 </ul>
                             </div>
-                        </div> */}
+                        </div>
                     </div>
                 </div> 
                         
@@ -230,4 +208,23 @@ class ViewUniRest extends Component {
         )
     }
 }
-export default  ViewUniRest;
+
+function mapDispatchToProps(dispatch){
+    return{
+        getUniqRest: user => dispatch(getUniqRest(user)),
+        getAllDish: user => dispatch(getAllDish(user))
+    };
+}
+
+function mapStateToProps(store){
+    console.log(store);
+    return{
+        message: store.info,
+        rest: store.rest,
+        message2 : store.info2,
+        dishes : store.dishes
+    };
+}
+
+const GetUniqueRest = connect(mapStateToProps, mapDispatchToProps)(ViewUniRest);
+export default GetUniqueRest;

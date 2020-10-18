@@ -1,4 +1,4 @@
-import {ADD_DISH, CUST_ORDERS, CUST_ORDER_DETAILS, CUST_POST_UPDATE, CUST_SIGNUP, REST_ORDERS, REST_ORDER_DETAILS, REST_REVIEWS} from '../constants/action-types'
+import {ADD_DISH, CART, CUST_ORDERS, CUST_ORDER_DETAILS, CUST_POST_UPDATE, CUST_SIGNUP, GET_ALL_DISH, GET_RESTAURANTS, REGISTERED_EVENTS, REST_EVENTS, REST_ORDERS, REST_ORDER_DETAILS, REST_REVIEWS, VIEW_UNIV_REST} from '../constants/action-types'
 import {CUST_LOGIN} from '../constants/action-types'
 import {CUST_PROFILE} from '../constants/action-types'
 import {CUST_GET_UPDATE} from '../constants/action-types'
@@ -11,7 +11,6 @@ import {REST_POST_UPDATE} from '../constants/action-types'
 import {DISH_PROFILE} from '../constants/action-types'
 import axios from 'axios';
 import { connURL } from '../../Configure'
-import { SizeContextProvider } from 'antd/lib/config-provider/SizeContext'
 
 export function signUp(payload){
     console.log("Attempting User Creation!")
@@ -511,7 +510,153 @@ export function restOrderDetails(payload){
                 dispatch({type: REST_ORDER_DETAILS, input})
             })
             .catch(err => {
-                
+
+            })
+    }
+}
+
+export function restEvents(payload){
+    console.log("Gathering Restuarant Events!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getEvents`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING REST EVENTS!")
+                    input = {
+                        message: "Rest Events are!",
+                        events: response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: REST_EVENTS, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function registeredEvents(payload){
+    console.log("Gathering Registered Events!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getRegisteredEvents`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING REGISTERED EVENTS!")
+                    input = {
+                        message: "Registered Events Data!",
+                        events: response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: REGISTERED_EVENTS, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function cart(){
+    console.log("Gathering Cart Data!")
+    let input = {}
+    return(dispatch) => {
+        axios.get(`${connURL}/getCart`)
+            .then(respone => {
+                console.log("Status Code : ", respone.status)
+                if(respone.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING CART ITEMS!")
+                    input = {
+                        message: "Cart Items!",
+                        cart: respone.data
+                    }
+                }else{
+
+                }
+                dispatch({type: CART, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function getRestaurants(payload){
+    console.log("Gathering Restaurants!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getallRest`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING RESTAURANTS!")
+                    input = {
+                        message: "Getting Restaurants!",
+                        restaurants: response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: GET_RESTAURANTS, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function getUniqRest(payload){
+    console.log("Gathering Unique Restaurant!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getRestData`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTION - GETTING UNIQ RESTAURANT!")
+                    input = {
+                        message: "Getting Unique Restaurant",
+                        rest: response.data
+                    }
+                }
+                else{
+
+                }
+                dispatch({type: VIEW_UNIV_REST, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function getAllDish(payload){
+    console.log("Gathering All Dishes!")
+    let input ={}
+    return(dispatch) => {
+        axios.post(`${connURL}/getDishes`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTION - GETTING ALL DISHES!")
+                    input = {
+                        message: "Getting Dishes",
+                        dishes : response.data
+                    }
+                }
+                else{
+
+                }
+                dispatch({type: GET_ALL_DISH, input})
+            })
+            .catch( err => {
+
             })
     }
 }

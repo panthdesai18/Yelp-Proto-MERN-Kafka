@@ -5,7 +5,8 @@ import EventRegister from './EventRegister';
 import HeaderBar from '../HeaderBar/HeaderBar'
 import { Input } from 'semantic-ui-react';
 import { connURL } from '../../Configure';
-
+import {connect} from 'react-redux'
+import { restEvents } from '../../js/actions';
 
 class ViewRestEvents extends Component {
 
@@ -15,30 +16,23 @@ class ViewRestEvents extends Component {
             events: [],
             noevents: true,
             searchEvent: ""
-        }
+        }    
     }
 
+    componentWillReceiveProps(){
+        setTimeout(() => {
+            this.setState({
+                events : this.props.events,
+                noevents : false
+            })
+        }, 1)
+        
+    }
     componentDidMount(){
         const data = {
             userid:window.sessionStorage.getItem("UserID")
         }
-        axios.defaults.withCredentials = true;
-        axios.post(`${connURL}/getEvents`,data)
-        .then(response => {
-            console.log("Status Code : ",response.status);
-            if(response.status === 200){ 
-                console.log(response.data) 
-                this.setState({
-                    events: response.data,
-                    noevents: false
-                })           
-            }
-            else
-            {
-            }
-        })
-        .catch(err => {
-        })
+        this.props.restEvents(data);
     }
 
     submitRegisteredEvents(){
@@ -76,6 +70,7 @@ class ViewRestEvents extends Component {
     
 
     render() {
+        console.log(this.state)
 
         if( this.state.noevents === true){
             return(<div>
@@ -99,9 +94,10 @@ class ViewRestEvents extends Component {
                             </div>
                         </div>
                         <div class="column-right-update">
-                            {this.state.events.map(i =>{
-                                return (
-                                    <EventRegister event = {i}/>
+                            {this.state.events.map(i => {
+                                console.log("event is ", i)
+                                return(
+                                    <EventRegister event = {i} />
                                 )
                             })}
                         </div>
@@ -115,4 +111,19 @@ class ViewRestEvents extends Component {
     }
 }
 
-export default ViewRestEvents;
+function mapDispatchToProps(dispatch){
+    return{
+        restEvents: user => dispatch(restEvents(user))
+    };
+}
+
+function mapStateToProps(store){
+    console.log(store);
+    return{
+        message: store.info,
+        events: store.events
+    };
+}
+
+const RestaurantEvents = connect(mapStateToProps, mapDispatchToProps)(ViewRestEvents);
+export default RestaurantEvents;

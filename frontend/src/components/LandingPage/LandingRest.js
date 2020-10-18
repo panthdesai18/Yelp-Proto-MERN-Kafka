@@ -130,4 +130,5 @@ class LandingRest extends Component {
         )
     }
 }
+
 export default LandingRest;

@@ -1,4 +1,4 @@
-import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE, REST_REVIEWS, CUST_ORDERS, CUST_ORDER_DETAILS, REST_ORDERS, REST_ORDER_DETAILS} from '../constants/action-types'
+import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE, REST_REVIEWS, CUST_ORDERS, CUST_ORDER_DETAILS, REST_ORDERS, REST_ORDER_DETAILS, REST_EVENTS, REGISTERED_EVENTS, CART, GET_RESTAURANTS, VIEW_UNIV_REST, GET_ALL_DISH} from '../constants/action-types'
 const startState = {
     info:null
 }
@@ -187,6 +187,48 @@ function defaultReducer(state = startState, action){
         return Object.assign({}, state, {
             info_orderdets: action.input.message,
             orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === REST_EVENTS){
+        console.log("Gathering Rest Events")
+        return Object.assign({}, state, {
+            info: action.input.message,
+            events: action.input.events
+        })
+    }
+    else if(action.type === REGISTERED_EVENTS){
+        console.log("Gathering Registered Events")
+        return Object.assign({}, state, {
+            info: action.input.message,
+            events: action.input.events
+        })
+    }
+    else if(action.type === CART){
+        console.log("Gathering Cart Items")
+        return Object.assign({}, state, {
+            info: action.input.message,
+            cart: action.input.cart
+        })
+    }
+    else if(action.type === GET_RESTAURANTS){
+        console.log("Gathering Restaurants")
+        return Object.assign({},state, {
+            info: action.input.message,
+            restaurants: action.input.restaurants
+        })
+    }
+    else if(action.type === VIEW_UNIV_REST){
+        console.log("Gathering Unique Restaurant Data!")
+        return Object.assign({}, state, {
+            info: action.input.message,
+            rest: action.input.rest
+        })
+    }
+    else if(action.type === GET_ALL_DISH){
+        console.log("Gathering All Rest Dishes!")
+        return Object.assign({}, state, {
+            info2: action.input.message,
+            dishes: action.input.dishes
         })
     }
     return state;

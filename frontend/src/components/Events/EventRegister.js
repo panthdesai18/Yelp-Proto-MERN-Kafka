@@ -9,8 +9,13 @@ import { connURL } from '../../Configure';
 
 class EventRegister extends Component {
 
+    constructor(props){
+        super(props);
+        console.log("Props in event register",props)
+    }
+
     componentDidMount(){
-        console.log(this.props.event)
+        console.log("EVENT REGISTER PROPS:",this.props.event)
     }
 
     submitRegister = (e) => {
