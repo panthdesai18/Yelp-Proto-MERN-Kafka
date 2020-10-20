@@ -1,4 +1,4 @@
-import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE, REST_REVIEWS, CUST_ORDERS, CUST_ORDER_DETAILS, REST_ORDERS, REST_ORDER_DETAILS, REST_EVENTS, REGISTERED_EVENTS, CART, GET_RESTAURANTS, VIEW_UNIV_REST, GET_ALL_DISH} from '../constants/action-types'
+import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE, REST_REVIEWS, CUST_ORDERS, CUST_ORDER_DETAILS, REST_ORDERS, REST_ORDER_DETAILS, REST_EVENTS, REGISTERED_EVENTS, CART, GET_RESTAURANTS, VIEW_UNIV_REST, GET_ALL_DISH, MAP, PLACE_ORDER, UPDATE_STATUS, POST_REVIEW, SEARCH_REST, SEARCH_DISH, FILTER_DELIV_REST, FILTER_PICKUP_REST, FILTER_DINEIN_REST, FILTER_CUST_DELIVORD, FILTER_CUST_RECORD, FILTER_CUST_PREPORD, FILTER_CUST_OFDORD, FILTER_CUST_CANORD, FILTER_REST_NEW, FILTER_REST_PAST, FILTER_REST_CANCELLED, ADD_TO_CART, CREATE_EVENT, CREATED_EVENTS, GET_REG_USERS, DISH_PHOTO} from '../constants/action-types'
 const startState = {
     info:null
 }
@@ -229,6 +229,162 @@ function defaultReducer(state = startState, action){
         return Object.assign({}, state, {
             info2: action.input.message,
             dishes: action.input.dishes
+        })
+    }
+    else if(action.type === MAP){
+        console.log("Gathering Map Coordinated!")
+        return Object.assign({}, state, {
+            info: action.input.message,
+            coords: action.input.coords
+        })
+    }
+    else if(action.type === PLACE_ORDER){
+        console.log("Placing Order!")
+        return Object.assign({}, state, {
+            info1: action.input.message
+        })
+    }
+    else if(action.type === UPDATE_STATUS){
+        console.log("Updating Order Status!")
+        return Object.assign({}, state, {
+            info1: action.input.message
+        })
+    }
+    else if(action.type === POST_REVIEW){
+        console.log("Adding Review!")
+        return Object.assign({}, state, {
+            info3: action.input.message
+        })
+    }
+    else if(action.type === SEARCH_REST){
+        console.log("Searching Restaurant Name!")
+        return Object.assign({}, state, {
+            info1: action.input.message,
+            locRest: action.input.locRest
+        })
+    }
+    else if(action.type === SEARCH_DISH){
+        console.log("Searching Dish Name!")
+        return Object.assign({}, state, {
+            info2: action.input.message,
+            dishRest: action.input.dishRest
+        })
+    }
+    else if(action.type === FILTER_DELIV_REST){
+        console.log("Filtering Deliv Restaurant!")
+        return Object.assign({}, state, {
+            info1: action.input.message,
+            restaurants: action.input.restaurants
+        })
+    }
+    else if(action.type === FILTER_PICKUP_REST){
+        console.log("Filtering Pickup Restaurant!")
+        return Object.assign({}, state, {
+            info2: action.input.message,
+            restaurants: action.input.restaurants
+        })
+    }
+    else if(action.type === FILTER_DINEIN_REST){
+        console.log("Filtering DineIn Restaurant!")
+        return Object.assign({}, state, {
+            info3: action.input.message,
+            restaurants: action.input.restaurants
+        })
+    }
+    else if(action.type === FILTER_CUST_DELIVORD){
+        console.log("Filtering Delivered Orders!")
+        return Object.assign({}, state, {
+            info3: action.input.message,
+            orders: action.input.orders,
+            orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === FILTER_CUST_RECORD){
+        console.log("Filtering Just Received Orders!")
+        return Object.assign({}, state, {
+            info3: action.input.message,
+            orders: action.input.orders,
+            orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === FILTER_CUST_PREPORD){
+        console.log("Filtering Preparing Orders!")
+        return Object.assign({}, state, {
+            info3: action.input.message,
+            orders: action.input.orders,
+            orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === FILTER_CUST_OFDORD){
+        console.log("Filtering Out for Delivery Orders!")
+        return Object.assign({}, state, {
+            info3: action.input.message,
+            orders: action.input.orders,
+            orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === FILTER_CUST_CANORD){
+        console.log("Filtering Cancelled Orders!")
+        return Object.assign({}, state, {
+            info3: action.input.message,
+            orders: action.input.orders,
+            orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === FILTER_REST_NEW){
+        console.log("Filtering New Orders!")
+        return Object.assign({}, state, {
+            info2: action.input.message,
+            orders: action.input.orders,
+            orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === FILTER_REST_PAST){
+        console.log("Filtering Past Orders!")
+        return Object.assign({}, state, {
+            info3 : action.input.message,
+            orders: action.input.orders,
+            orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === FILTER_REST_CANCELLED){
+        console.log("Filtereing Cancelled Orders!")
+        return Object.assign({}, state, {
+            info4: action.input.message,
+            orders: action.input.orders,
+            orderdetails: action.input.orderdetails
+        })
+    }
+    else if(action.type === ADD_TO_CART){
+        console.log("Adding to Cart!")
+        return Object.assign({}, state, {
+            info4: action.input.message
+        })
+    }
+    else if(action.type === CREATE_EVENT){
+        console.log("Creating New Event!")
+        return Object.assign({}, state, {
+            info: action.input.message
+        })
+    }
+    else if(action.type === CREATED_EVENTS){
+        console.log("Created Events Are!")
+        return Object.assign({}, state, {
+            info: action.input.message,
+            events: action.input.events
+        })
+    }
+    else if(action.type === GET_REG_USERS){
+        console.log("Getting Registered Users!")
+        return Object.assign({}, state, {
+            info1: action.input.message,
+            users: action.input.users
+        })
+    }
+    else if(action.type === DISH_PHOTO){
+        console.log("Uploading Dish Photo!")
+        return Object.assign({}, state, {
+            info: action.input.message
         })
     }
     return state;

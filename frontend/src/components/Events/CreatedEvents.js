@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import {Card} from 'antd'
 import { Modal } from 'antd';
 import HeaderBar from '../HeaderBar/HeaderBar'
 import {Link} from 'react-router-dom'
-import { connURL } from '../../Configure';
+import { connect } from 'react-redux'
+import { createdEvents, getRegisteredUsers } from '../../js/actions';
 
 class CreatedEvents extends Component {
 
@@ -41,21 +41,7 @@ class CreatedEvents extends Component {
         var data = {
             userid :  window.sessionStorage.getItem("UserID"),
         }
-        axios.post(`${connURL}/getCreatedEvents`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    this.setState({
-                        events : response.data
-                    })
-                    console.log(this.state.events)
-                    
-                }else{
-                }
-            })
-            .catch(err => {
-                //document.getElementById("invalidLog").style.display='block';
-            })
+        this.props.createdEvents(data)
     }
 
     getUserDetails = (eventid) => {
@@ -66,27 +52,63 @@ class CreatedEvents extends Component {
         const data = {
             eventid : eventid
         }
-        axios.post(`${connURL}/getEventDetails`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                console.log(response.data)
-                if(response.status === 200){
-                    this.setState({
-                        user: response.data
-                    })
-                    console.log("USER IS ",this.state.user[0].email)
-                }else{
-                }
-            })
-            .catch(err => {
-                //document.getElementById("invalidLog").style.display='block';
-            })
+        this.props.getRegisteredUsers(data)
+        // axios.post(`${connURL}/getEventDetails`,data)
+        //     .then(response => {
+        //         console.log("Status Code : ",response.status);
+        //         console.log(response.data)
+        //         if(response.status === 200){
+        //             this.setState({
+        //                 user: response.data
+        //             })
+        //         }else{
+        //         }
+        //     })
+        //     .catch(err => {
+        //         //document.getElementById("invalidLog").style.display='block';
+        //     })
 
     }
 
 
 
     render() {
+
+        let temp = null;
+        let temp2 = null; 
+        if(this.props.user !== undefined){
+            temp2 = this.props.user.map( j => {
+                return(
+                    <Modal
+                        title={j.firstname}
+                        visible={this.state.visible}
+                        onOk={this.handleOk}
+                        onCancel={this.handleCancel}
+                        onClick={() => this.showProfile(j.userid)}
+                    >
+                        <p>{j.email}</p>
+                        <p>{j.address}</p>
+                        <p>{j.city}</p>
+                        <Link style={{fontWeight: "bold", fontSize: 14}} className='button' to={`/userProfile/${j.userid}`}>Visit</Link>
+                    </Modal>
+                )
+            })
+        }
+        if( this.props.events !== undefined){
+            temp = this.props.events.map( i => {
+                return(
+                    <div>
+                        <Card title = "Created Event" bordered={true} style={{ width: 300, borderStyle:"solid", borderWidth:1, marginTop:10, borderColor: "#cfcfcf", padding: 10, borderRadius: 5, fontWeight: "bold"}}>
+                            <p style={{marginTop: 10}}>Name : {i.eventname}</p>
+                            <p>Description : {i.eventdesc}</p>
+                            <p>Location : {i.eventlocation}</p>
+                            <p style ={{color:"#d32323"}}class = "cust-link" onClick={ () => {this.getUserDetails(i.eventid)} }>Show Registered Users</p>
+                            {temp2}
+                        </Card>
+                    </div>
+                )
+            })
+        }
 
         return (
             <div>
@@ -99,31 +121,7 @@ class CreatedEvents extends Component {
                     </div>
                     <div class = "column-right-update">
                     <div>
-                        {Object.keys(this.state.events).map(i => 
-                            <div>
-                                <Card title = "Created Event" bordered={true} style={{ width: 300, borderStyle:"solid", borderWidth:1, marginTop:10, borderColor: "#cfcfcf", padding: 10, borderRadius: 5, fontWeight: "bold"}}>
-                                    <p style={{marginTop: 10}}>Name : {this.state.events[i].eventname}</p>
-                                    <p>Description : {this.state.events[i].eventdesc}</p>
-                                    <p>Location : {this.state.events[i].eventlocation}</p>
-                                    <p style ={{color:"#d32323"}}class = "cust-link" onClick={ () => {this.getUserDetails(this.state.events[i].eventid)} }>Show Registered Users</p>
-                                    {Object.keys(this.state.user).map(j =>
-                                        <Modal
-                                        title={this.state.user[j].firstname}
-                                        visible={this.state.visible}
-                                        onOk={this.handleOk}
-                                        onCancel={this.handleCancel}
-                                        onClick={() => this.showProfile(this.state.user[j].userid)}
-                                        >
-                                        <p>{this.state.user[j].email}</p>
-                                        <p>{this.state.user[j].address}</p>
-                                        <p>{this.state.user[j].city}</p>
-                                        <Link style={{fontWeight: "bold", fontSize: 14}} className='button' to={`/userProfile/${this.state.user[j].userid}`}>Visit</Link>
-                                    </Modal>
-                                    )}
-                                </Card>
-                            </div>
-                            
-                        )}
+                        {temp}
                         </div>
                     </div>
                 </div>
@@ -132,5 +130,21 @@ class CreatedEvents extends Component {
     }
 }
 
+function mapDispatchToProps(dispatch){
+    return{
+        createdEvents: user => dispatch(createdEvents(user)),
+        getRegisteredUsers: user => dispatch(getRegisteredUsers(user))
+    };
+}
 
-export default CreatedEvents;
+function mapStateToProps(store){
+    console.log(store);
+    return{
+        message: store.info,
+        events: store.events,
+        user: store.users
+    };
+}
+
+const RestCreatedEvents = connect(mapStateToProps, mapDispatchToProps)(CreatedEvents);
+export default RestCreatedEvents;

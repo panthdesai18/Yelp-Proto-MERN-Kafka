@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import { Rating } from '@material-ui/lab';
 import { Button } from 'semantic-ui-react';
@@ -8,7 +7,7 @@ import { faComment, faDirections, faMailBulk, faPhone, faStar, faUtensilSpoon } 
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
 import { connURL } from '../../Configure';
 import { connect } from 'react-redux'
-import { getAllDish, getUniqRest } from '../../js/actions';
+import { addToCart, getAllDish, getUniqRest, postingReview } from '../../js/actions';
 
 class ViewUniRest extends Component {
 
@@ -44,18 +43,7 @@ class ViewUniRest extends Component {
             username: this.state.firstname
         }
         console.log(data1)
-        axios.defaults.withCredentials = true;
-        axios.post(`${connURL}/postReview`,data1)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    
-                }else{
-                }
-            })
-            .catch(err => {
-                //document.getElementById("invalidLog").style.display='block';
-            })
+        this.props.postingReview(data1)
     }
 
     submitAddToCart = (dishid) => {
@@ -65,19 +53,7 @@ class ViewUniRest extends Component {
             dishid: dishid,
             restname: this.state.rest.restname 
         }
-        console.log(data)
-        axios.defaults.withCredentials = true;
-        axios.post(`${connURL}/addToCart`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    
-                }else{
-                }
-            })
-            .catch(err => {
-                //document.getElementById("invalidLog").style.display='block';
-            })
+        this.props.addToCart(data)
     }
 
 
@@ -111,35 +87,57 @@ class ViewUniRest extends Component {
                 )
             })
         }
-        let temp2 = null;
+        let temp3 = null;
         if(this.props.rest !== undefined){
-            temp2 = this.props.rest
-            console.log("TEMP 2 is : ", temp2)
+            temp3 = this.props.rest.restname
         }
-        console.log("Props are : ", this.props)
+        let temp4 = null;
+        if(this.props.rest !== undefined){
+            temp4 = this.props.rest.email
+        }
+        let temp5 = null;
+        if(this.props.rest !== undefined){
+            temp5 = this.props.rest.phno
+        }
+        let temp6 = null;
+        if(this.props.rest !== undefined){
+            temp6 = this.props.rest.restphoto
+        }
+        let temp7 = null;
+        if(this.props.rest !== undefined){
+            temp7 = this.props.rest.restphoto2
+        }
+        let temp8 = null;
+        if(this.props.rest !== undefined){
+            temp8 = this.props.rest.restphoto3
+        }
+        let temp9 = null;
+        if(this.props.rest !== undefined){
+            temp9 = this.props.rest.restphoto4
+        }
         return (
             <div>
                 <HeaderBar></HeaderBar>
                 <div style={{height: 160}}>
                     <div class = "row">
                         <div class = "column-one-rest">
-                            <img style={{height:140,width:340}}src = {`${connURL}/profimages/` + this.state.rest.restphoto} alt="Rest Photo1"/>
+                            <img style={{height:140,width:340}}src = {`${connURL}/profimages/` + temp6} alt="Rest Photo1"/>
                         </div>
                         <div class = "column-two-rest">
-                            <img style={{height:140,width:340}}src = {`${connURL}/profimages/` + this.state.rest.restphoto2} alt="Rest Photo1"/>
+                            <img style={{height:140,width:340}}src = {`${connURL}/profimages/` + temp7} alt="Rest Photo1"/>
                         </div>
                         <div class = "column-three-rest">
-                            <img style={{height:140,width:340}}src = {`${connURL}/profimages/` + this.state.rest.restphoto3} alt="Rest Photo1"/>
+                            <img style={{height:140,width:340}}src = {`${connURL}/profimages/` + temp8} alt="Rest Photo1"/>
                         </div>
                         <div class = "column-four-rest">
-                            <img style={{height:140,width:340}}src = {`${connURL}/profimages/` + this.state.rest.restphoto4} alt="Rest Photo1"/>
+                            <img style={{height:140,width:340}}src = {`${connURL}/profimages/` + temp9} alt="Rest Photo1"/>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="column-left-rest" style={{}}>
                         <div class ="column-left-rest">
-                            <h1>{this.state.rest.restname}</h1>
+                            <h1>{temp3}</h1>
                             <Rating name="size-large" defaultValue={2} size="large"/> 46 Reviews
                             <br></br>
                             <h3 style={{color: "green"}}>Open</h3>
@@ -171,13 +169,13 @@ class ViewUniRest extends Component {
                                     <li>
                                         <div style={{height:42}}>
                                             <span><FontAwesomeIcon icon={faMailBulk}/></span>
-                                            <span style ={{marginLeft:10}}>{this.state.rest.email}</span>
+                                            <span style ={{marginLeft:10}}>{temp4}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div style={{height:42}}>
                                             <span><FontAwesomeIcon icon={faPhone}/></span>
-                                            <span style ={{marginLeft:10}}>{this.state.rest.phno}</span>
+                                            <span style ={{marginLeft:10}}>{temp5}</span>
                                         </div>
                                     </li>
                                     <li>
@@ -212,7 +210,9 @@ class ViewUniRest extends Component {
 function mapDispatchToProps(dispatch){
     return{
         getUniqRest: user => dispatch(getUniqRest(user)),
-        getAllDish: user => dispatch(getAllDish(user))
+        getAllDish: user => dispatch(getAllDish(user)),
+        postingReview: user => dispatch(postingReview(user)),
+        addToCart: user => dispatch(addToCart(user))
     };
 }
 
@@ -222,7 +222,9 @@ function mapStateToProps(store){
         message: store.info,
         rest: store.rest,
         message2 : store.info2,
-        dishes : store.dishes
+        dishes : store.dishes,
+        message3: store.info3,
+        message4: store.info4
     };
 }
 

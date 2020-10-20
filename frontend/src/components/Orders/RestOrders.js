@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Dropdown } from 'semantic-ui-react'
 import { Button } from 'semantic-ui-react'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import Checkbox from '@material-ui/core/Checkbox';
 import { Modal } from 'antd';
-import { connURL } from '../../Configure'
 import {connect} from 'react-redux'
-import { restOrderDetails, restOrders } from '../../js/actions'
+import { filterRestCancelled, filterRestNew, filterRestPast, restOrderDetails, restOrders, updateOrder } from '../../js/actions'
 
 
 class RestOrders extends Component {
@@ -70,154 +68,28 @@ class RestOrders extends Component {
             status : this.state.status
         }
         console.log(data)
-        axios.post(`${connURL}/updateOrderStatus`,data)
-            .then(response => {
-                console.log("Status Code : ", response.status);
-                if(response.status === 200){
-                    console.log("Order Status Updated!")
-                    
-                }else{
-
-                }
-            })
-            .catch(err =>{
-
-            })
+        this.props.updateOrder(data)
     }
 
     submitDelivered = () =>{
         const data = {
             userid :  window.sessionStorage.getItem("UserID")
         }
-        axios.post(`${connURL}/getRestDelivered`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    console.log("DELIVERED ORDERS ARE:",response.data)
-                    console.log("DATA ARRAY 0:",response.data[0])
-                    console.log("DATA ARRAY 1:",response.data[1])
-
-                    this.setState({
-                        restorderdetails: response.data[0],
-                        restorder: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
+        this.props.filterRestPast(data)
     }
 
     submitReceived = () =>{
         const data = {
             userid :  window.sessionStorage.getItem("UserID")
         }
-        axios.post(`${connURL}/getRestReceived`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    this.setState({
-                        restorderdetails: response.data[0],
-                        restorder: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
-    }
-
-    submitPreparing = () =>{
-        const data = {
-            userid :  window.sessionStorage.getItem("UserID")
-        }
-        axios.post(`${connURL}/getRestPreparing`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    this.setState({
-                        restorderdetails: response.data[0],
-                        restorder: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
-    }
-
-    submitOutDelivery = () =>{
-        const data = {
-            userid :  window.sessionStorage.getItem("UserID")
-        }
-        axios.post(`${connURL}/getRestOutDelivery`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    this.setState({
-                        restorderdetails: response.data[0],
-                        restorder: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
+        this.props.filterRestNew(data)
     }
 
     submitCancelled = () =>{
         const data = {
             userid :  window.sessionStorage.getItem("UserID")
         }
-        axios.post(`${connURL}/getRestCancelled`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    this.setState({
-                        restorderdetails: response.data[0],
-                        restorder: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
-    }
-
-    getUserDetails = (userid) => {
-        this.setState({
-            visible : true
-        })
-        console.log(userid)
-        const data = {
-            userid: userid
-        }
-        axios.post(`${connURL}/getUserData`,data)
-            .then(response => {
-                console.log(response.data);
-                if( response.status === 200){
-                    this.setState({
-                        userdetails: response.data
-                    })
-                    console.log("STATE USER DETAILS:", this.state.userdetails)
-                }
-                else{
-
-                }
-            })
-            .catch( err => {
-
-            })
+        this.props.filterRestCancelled(data)
     }
 
     render() {
@@ -235,7 +107,7 @@ class RestOrders extends Component {
             temp=this.props.orderdetails.map(i => {
                 return (<div style ={{borderStyle:"solid", borderWidth:1 , width: 300, marginTop: 20, padding:10, borderRadius: 5, borderColor: "#cfcfcf"}}>
                             <p style={{fontWeight:"bold"}}>Order #{i.orderid}</p>
-                            <p style={{fontWeight:"bold", color:"#d32322"}} class="cust-link" onClick={ () => this.getUserDetails(i.userid)}>User #{i.userid}</p>
+                            <p style={{fontWeight:"bold", color:"#d32322"}} class="cust-link">User #{i.userid}</p>
                             {Object.keys(this.state.userdetails).map(j =>
                                 <Modal
                                     title={this.state.userdetails.firstname}
@@ -275,7 +147,7 @@ class RestOrders extends Component {
                                 inputProps={{ 'aria-label': 'primary checkbox' }}
                             /> New Orders <br></br>
                             <Checkbox
-                                onClick={this.submitOutDelivery}
+                                onClick={this.submitDelivered}
                                 inputProps={{ 'aria-label': 'primary checkbox' }}
                             /> Past Orders <br></br>
                             <Checkbox
@@ -295,7 +167,11 @@ class RestOrders extends Component {
 function mapDispatchToProps(dispatch){
     return{
         restOrders: user => dispatch(restOrders(user)),
-        restOrderDetails: user => dispatch(restOrderDetails(user))
+        restOrderDetails: user => dispatch(restOrderDetails(user)),
+        updateOrder: user => dispatch(updateOrder(user)),
+        filterRestNew: user => dispatch(filterRestNew(user)),
+        filterRestPast: user => dispatch(filterRestPast(user)),
+        filterRestCancelled: user => dispatch(filterRestCancelled(user))
     };
 }
 
@@ -305,7 +181,8 @@ function mapStateToProps(store){
         message: store.info,
         orders: store.orders,
         message2: store.info_orderdets,
-        orderdetails: store.orderdetails
+        orderdetails: store.orderdetails,
+        message3 : store.info1
     };
 }
 

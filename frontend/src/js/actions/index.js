@@ -1,4 +1,4 @@
-import {ADD_DISH, CART, CUST_ORDERS, CUST_ORDER_DETAILS, CUST_POST_UPDATE, CUST_SIGNUP, GET_ALL_DISH, GET_RESTAURANTS, REGISTERED_EVENTS, REST_EVENTS, REST_ORDERS, REST_ORDER_DETAILS, REST_REVIEWS, VIEW_UNIV_REST} from '../constants/action-types'
+import {ADD_DISH, ADD_TO_CART, CART, CREATED_EVENTS, CREATE_EVENT, CUST_ORDERS, CUST_ORDER_DETAILS, CUST_POST_UPDATE, CUST_SIGNUP, DISH_PHOTO, FILTER_CUST_CANORD, FILTER_CUST_DELIVORD, FILTER_CUST_OFDORD, FILTER_CUST_PREPORD, FILTER_CUST_RECORD, FILTER_DELIV_REST, FILTER_DINEIN_REST, FILTER_PICKUP_REST, FILTER_REST_CANCELLED, FILTER_REST_NEW, FILTER_REST_PAST, GET_ALL_DISH, GET_REG_USERS, GET_RESTAURANTS, MAP, PLACE_ORDER, POST_REVIEW, REGISTERED_EVENTS, REST_EVENTS, REST_ORDERS, REST_ORDER_DETAILS, REST_REVIEWS, SEARCH_DISH, SEARCH_REST, UPDATE_STATUS, VIEW_UNIV_REST} from '../constants/action-types'
 import {CUST_LOGIN} from '../constants/action-types'
 import {CUST_PROFILE} from '../constants/action-types'
 import {CUST_GET_UPDATE} from '../constants/action-types'
@@ -11,6 +11,7 @@ import {REST_POST_UPDATE} from '../constants/action-types'
 import {DISH_PROFILE} from '../constants/action-types'
 import axios from 'axios';
 import { connURL } from '../../Configure'
+import { IconGroup } from 'semantic-ui-react'
 
 export function signUp(payload){
     console.log("Attempting User Creation!")
@@ -659,6 +660,588 @@ export function getAllDish(payload){
 
             })
     }
+}
+
+export function getCoords(){
+    console.log("Gathering Map Coordindates!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getCoordinates`)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTION - GETTING ALL COORDINATES!")
+                    input = {
+                        message: "Getting Coords",
+                        coords: response.data
+                    }
+                }
+                else{
+
+                }
+                dispatch({type: MAP, input})
+            })
+            .catch( err => {
+
+            })
+    }
+}
+
+export function placeOrder(payload){
+    console.log("Attempting Placing Order!")
+    let input = {}
+    return(dispatch) =>{
+        axios.defaults.withCredentials = true;
+        axios.post(`${connURL}/placeOrder`,payload)
+            .then(response => {
+                console.log("Status Code : ",response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - PLACING ORDER!")
+                    input = {
+                        message : "Order Placed!"
+                    }
+                }else{
+                    
+                }
+                dispatch({type: PLACE_ORDER,input})
+            })
+            .catch(err => {
+                
+        })
+    }
+}
+
+export function updateOrder(payload){
+    console.log("Attempting Order Status Change!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/updateOrderStatus`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - UPDATING STATUS CHANGE!")
+                    input = {
+                        message: "Status Changed!"
+                    }
+                }
+                else{
+
+                }
+                dispatch({type: UPDATE_STATUS, input})
+            })
+            .catch( err => {
+
+            })
+    }
+}
+
+export function postingReview(payload){
+    console.log("Attempting Review Posting!")
+    let input = {}
+    return(dispatch) => {
+        axios.defaults.withCredentials = true;
+        axios.post(`${connURL}/postReview`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - POSTING REVIEW!")
+                    input = {
+                        message: "Review Added!"
+                    }
+                }else{
+
+                }
+                dispatch({type: POST_REVIEW, input})
+            })
+            .catch( err => {
+
+            })
+    }
+}
+
+export function searchRestName(payload){
+    console.log("Attempting Restaurant Search!")
+    let input = {}
+    return(dispatch) => {
+        // axios.defaults.withCredentials = true;
+        axios.post(`${connURL}/searchLocation`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - SEARCHING RESTAURANT")
+                    input = {
+                        message: "Searched Restaurant Data!",
+                        locRest : response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: SEARCH_REST, input})
+            })
+            .catch( err => {
+
+            })
+    }
+}
+
+export function searchDishName(payload){
+    console.log("Attempting Dish Search!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/searchDish`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status);
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - SEARCHING DISHES!")
+                    input = {
+                        message: "Searched Dish Data!",
+                        dishRest: response.data
+                    }
+                }
+                else{
+
+                }
+                dispatch({type: SEARCH_DISH, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function filterDelivery(){
+    console.log("Delivery Restaurants!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getDelivRest`)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - FILTERING RESTAURANT!")
+                    input = {
+                        message: "Filtering Restaurant",
+                        restaurants: response.data
+                    }
+                }
+                else{
+
+                }
+                dispatch({type: FILTER_DELIV_REST, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function filterPickup(){
+    console.log("Pickup Restaurants!")
+    let input = {}
+    return(dispatch) => {
+        
+            axios.post(`${connURL}/getPickup`)
+                .then(response => {
+                    console.log("Status Code : ", response.status)
+                    if(response.status === 200){
+                        console.log("HERE IN ACTIONS - FILTERING RESTAURANT!")
+                        input = {
+                            message: "Filtering Restaurant",
+                            restaurants: response.data
+                        }
+                    }
+                    else{
+    
+                    }
+                    dispatch({type: FILTER_PICKUP_REST, input})
+                })
+                .catch(err => {
+    
+                })
+            
+    }
+}
+
+export function filterDinein(){
+    console.log("Pickup Restaurants!")
+    let input = {}
+    return(dispatch) => {
+            axios.post(`${connURL}/getDineIn`)
+                .then(response => {
+                    console.log("Status Code : ", response.status)
+                    if(response.status === 200){
+                        console.log("HERE IN ACTIONS - FILTERING RESTAURANT!")
+                        input = {
+                            message: "Filtering Restaurant",
+                            restaurants: response.data
+                        }
+                    }
+                    else{
+    
+                    }
+                    dispatch({type: FILTER_DINEIN_REST, input})
+                })
+                .catch(err => {
+    
+                })  
+    }
+}
+
+export function filterCustDeliv(payload){
+    console.log("Delivered Orders!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getCustDelivered`,payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - FILTERING DELIVERED ORDERS!")
+                    input = {
+                        message: "Filtering Delivered Orders!",
+                        orderdetails: response.data[0],
+                        orders: response.data[1]
+                    }
+                    console.log("INPUT = ", input)
+                }else{
+
+                }
+                dispatch({type: FILTER_CUST_DELIVORD, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function filterCustReceived(payload){
+    console.log("Delivered Orders!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getCustReceived`,payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - FILTERING DELIVERED ORDERS!")
+                    input = {
+                        message: "Filtering Delivered Orders!",
+                        orderdetails: response.data[0],
+                        orders: response.data[1]
+                    }
+                    console.log("INPUT = ", input)
+                }else{
+
+                }
+                dispatch({type: FILTER_CUST_RECORD, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function filterCustPreparing(payload){
+    console.log("Delivered Orders!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getCustPreparing`,payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - FILTERING DELIVERED ORDERS!")
+                    input = {
+                        message: "Filtering Delivered Orders!",
+                        orderdetails: response.data[0],
+                        orders: response.data[1]
+                    }
+                    console.log("INPUT = ", input)
+                }else{
+
+                }
+                dispatch({type: FILTER_CUST_PREPORD, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function filterCustOutforDelivery(payload){
+    console.log("Delivered Orders!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getCustOutDelivery`,payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - FILTERING DELIVERED ORDERS!")
+                    input = {
+                        message: "Filtering Delivered Orders!",
+                        orderdetails: response.data[0],
+                        orders: response.data[1]
+                    }
+                    console.log("INPUT = ", input)
+                }else{
+
+                }
+                dispatch({type: FILTER_CUST_OFDORD, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function filterCustCancelled(payload){
+    console.log("Delivered Orders!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getCustCancelled`,payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - FILTERING DELIVERED ORDERS!")
+                    input = {
+                        message: "Filtering Delivered Orders!",
+                        orderdetails: response.data[0],
+                        orders: response.data[1]
+                    }
+                    console.log("INPUT = ", input)
+                }else{
+
+                }
+                dispatch({type: FILTER_CUST_CANORD, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function filterRestNew(payload){
+    console.log("New Orders!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getRestReceived`, payload)
+            .then(response => {
+                console.log("Status Code: ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - FILTERING NEW ORDERS!")
+                    input = {
+                        message: "New Orders!",
+                        orderdetails: response.data[0],
+                        orders: response.data[1]
+                    }
+                }else{
+
+                }
+                dispatch({type: FILTER_REST_NEW, input})
+            })
+            .catch(err=>{
+
+            })
+        }
+}
+
+export function filterRestPast(payload){
+    console.log("Past Orders!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getRestDelivered`, payload)
+            .then(response => {
+                console.log("Status Code: ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - FILTERING PAST ORDERS!")
+                    input = {
+                        message: "Past Orders!",
+                        orderdetails: response.data[0],
+                        orders: response.data[1]
+                    }
+                }else{
+
+                }
+                dispatch({type: FILTER_REST_PAST, input})
+            })
+            .catch(err=>{
+                
+            })
+        }
+}
+
+export function filterRestCancelled(payload){
+    console.log("Cancelled Orders!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getRestCancelled`, payload)
+            .then(response => {
+                console.log("Status Code: ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - FILTERING CANCELLED ORDERS!")
+                    input = {
+                        message: "CANCELLED Orders!",
+                        orderdetails: response.data[0],
+                        orders: response.data[1]
+                    }
+                }else{
+
+                }
+                dispatch({type: FILTER_REST_CANCELLED, input})
+            })
+            .catch(err=>{
+                
+            })
+        }
+}
+
+export function addToCart(payload){
+    console.log("Attempting Cart Addition")
+    let input = {}
+    return(dispatch) => {
+        axios.defaults.withCredentials = true;
+        axios.post(`${connURL}/addToCart`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - ADDING TO CART!")
+                    input = {
+                        message: "Added to Cart!"
+                    }
+                }
+                else{
+
+                }
+                dispatch({type: ADD_TO_CART, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function addNewEvent(payload){
+    console.log("Attempting New Event Addition")
+    let input = {}
+    return(dispatch) => {
+        axios.defaults.withCredentials = true;
+        axios.post(`${connURL}/addEvent`, payload)
+            .then(response =>{
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - ADDING NEW EVENT!")
+                    input = {
+                        message: "New Event Added!"
+                    }
+                }
+                else{
+
+                }
+                dispatch({type: CREATE_EVENT, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function createdEvents(payload){
+    console.log("Getting Created Events")
+    let input = {}
+    return(dispatch)=> {
+        axios.post(`${connURL}/getCreatedEvents`, payload)
+            .then(response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING CREATED EVENTS!")
+                    input = {
+                        message : "Created Events Are:",
+                        events: response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: CREATED_EVENTS, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function getRegisteredUsers(payload){
+    console.log("Getting registered users:")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getEventDetails`, payload)
+            .then(response => {
+                console.log("Status Code : " ,response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING REGISTERED USERS!")
+                    input = {
+                        message: "Registered Users: ",
+                        users: response.data
+                    }
+                }
+                else{
+
+                }
+                dispatch({type: GET_REG_USERS, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function uploadDishPhoto(payload){
+    console.log("Uploading Dish----------------- Photo")
+
+    return async dispatch => {
+        console.log("Trying.......")
+        // axios.post(`${connURL}/getEventDetails`, payload)
+        //     .then(response => {
+        //         console.log("Status Code : " ,response.status)
+        //         if(response.status === 200){
+        //             console.log("HERE IN ACTIONS - GETTING REGISTERED USERS!")
+        //             input = {
+        //                 message: "Registered Users: ",
+        //                 users: response.data
+        //             }
+        //         }
+        //         else{
+
+        //         }
+        //         dispatch({type: GET_REG_USERS, input})
+        //     })
+        //     .catch(err => {
+
+        //     })
+    }
+    // let input = {}
+    // return(dispatch) => {
+    //     console.log("calling backend")
+    //     const config = {
+    //         headers: {
+    //             'content-type': 'multipart/form-data'
+    //         }
+    //     }
+    //     axios.post(`${connURL}/updateDishPhoto`, payload, config)
+    //         .then( response => {
+    //             console.log("Status Code : ", response.status)
+    //             if(response.status === 200){
+    //                 console.log("HERE IN ACTIONS - UPLOADING DISH PHOTO")
+    //                 let input = {
+    //                     message: "Dish Photo Uploaded"
+    //                 }
+    //                 window.location.replace('/restProfile')
+    //                 dispatch({type: DISH_PHOTO, input})
+    //             }
+    //             else{
+
+    //             }
+                
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
 }
 
 export function logout(payload){

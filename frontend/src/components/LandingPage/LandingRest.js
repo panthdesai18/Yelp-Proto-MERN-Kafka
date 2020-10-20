@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import ViewRest from '../Views/ViewRest'
-import axios from 'axios'
 import Maps from '../Maps/Maps'
-import { connURL } from '../../Configure'
+import { connect } from 'react-redux'
+import { filterDelivery, filterDinein, filterPickup } from '../../js/actions'
 
 
 class LandingRest extends Component {
@@ -16,85 +16,18 @@ class LandingRest extends Component {
         
     }
     componentDidMount(){
-        var data = {
-            userid :  window.sessionStorage.getItem("UserID")
-        }
-        axios.post(`${connURL}/getReviews`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    console.log(response);
-                }else{
-                }
-            })
-            .catch(err => {
-                
-            })
-        axios.post(`${connURL}/getRestData`, data)
-            .then(response => {
-                console.log("Status Code for REST DATA:", response.status);
-                if(response.status === 200){
-                    console.log(response.data)
-                }
-                else{
-                    console.log("NO REST DATA!")
-                }
-            })
     }
 
     submitGetDelivery = (e) => {
-        axios.defaults.withCredentials = true;
-        axios.post(`${connURL}/getDelivRest`)
-            .then(response => {
-                console.log(response.data);
-                if(response.status === 200){
-                    this.setState({
-                        restraurants : response.data
-                    })
-                }else{
-                }
-            })
-            .catch(err => {
-                //document.getElementById("invalidLog").style.display='block';
-            })
+        this.props.filterDelivery()
     }
 
     submitGetPickup = (e) => {
-        axios.defaults.withCredentials = true;
-        axios.post(`${connURL}/getPickup`)
-            .then(response => {
-                console.log(response.data);
-                if(response.status === 200){
-                    this.setState({
-                        restraurants : response.data
-                    })
-                }
-                else{
-
-                }
-            })
-            .catch(err => {
-
-            })
+        this.props.filterPickup()
     }
 
     submitGetDineIn = (e) => {
-        axios.defaults.withCredentials =true;
-        axios.post(`${connURL}/getDineIn`)
-            .then(response => {
-                console.log(response.data);
-                if(response.status === 200){
-                    this.setState({
-                        restraurants : response.data
-                    })
-                }
-                else{
-
-                }
-            })
-            .catch(err => {
-
-            })
+        this.props.filterDinein()
     }
 
     render() {
@@ -118,7 +51,7 @@ class LandingRest extends Component {
                     </div>
                     <div class="cust-column-middle-3">
                         <div style={{marginLeft:30}}>
-                            <ViewRest restraurants = {this.state.restraurants}/>
+                            <ViewRest restraurants = {this.props.restraurants}/>
                         </div>
                     </div>
                     <div class="cust-column-right-3"style={{}}>
@@ -131,4 +64,23 @@ class LandingRest extends Component {
     }
 }
 
-export default LandingRest;
+function mapDispatchToProps(dispatch){
+    return{
+        filterDelivery: user => dispatch(filterDelivery(user)),
+        filterPickup: user => dispatch(filterPickup(user)),
+        filterDinein: user => dispatch(filterDinein(user))
+    };
+}
+
+function mapStateToProps(store){
+    console.log(store);
+    return{
+        message: store.info1,
+        restraurants: store.restraurants,
+        message2: store.info2,
+        message3: store.info3
+    };
+}
+
+const RestaurantsLanding = connect(mapStateToProps, mapDispatchToProps)(LandingRest);
+export default RestaurantsLanding;

@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import Checkbox from '@material-ui/core/Checkbox';
-import { connURL } from '../../Configure';
 import {connect} from 'react-redux';  
-import { custOrderDetails, custOrders } from '../../js/actions';
+import { custOrderDetails, custOrders, filterCustCancelled, filterCustDeliv, filterCustOutforDelivery, filterCustPreparing, filterCustReceived } from '../../js/actions';
 
 class CustOrders extends Component {
 
@@ -22,131 +20,40 @@ class CustOrders extends Component {
         }
         this.props.custOrders(data);
         this.props.custOrderDetails(data);
-        // axios.post(`${connURL}/getUserOrderDetails`,data)
-        //     .then(response =>{
-        //         console.log("Status Code : ", response.status);
-        //         if(response.status === 200){
-        //             console.log("HERE IN ACTION - GETTING USER ORDER DETAILS!")
-        //             console.log(response.data);
-        //             this.setState({
-        //                 custorder: response.data
-        //             })
-        //             Object.keys(this.state.custorder).map(i => 
-        //                 console.log(this.state.custorder[i])
-        //             )
-        //         }
-        //         else{
-
-        //         }
-        //     })
-        //     .catch(err =>{
-
-        //     })
     }
-
     submitDelivered = () =>{
         const data = {
             userid :  window.sessionStorage.getItem("UserID")
         }
-        axios.post(`${connURL}/getCustDelivered`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    this.setState({
-                        custorder: response.data[0],
-                        custorderdetails: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
+        this.props.filterCustDeliv(data)
     }
 
     submitReceived = () =>{
         const data = {
             userid :  window.sessionStorage.getItem("UserID")
         }
-        axios.post(`${connURL}/getCustReceived`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    this.setState({
-                        custorder: response.data[0],
-                        custorderdetails: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
+        this.props.filterCustReceived(data)
     }
 
     submitPreparing = () =>{
         const data = {
             userid :  window.sessionStorage.getItem("UserID")
         }
-        axios.post(`${connURL}/getCustPreparing`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    this.setState({
-                        custorder: response.data[0],
-                        custorderdetails: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
+        this.props.filterCustPreparing(data)
     }
 
     submitOutDelivery = () =>{
         const data = {
             userid :  window.sessionStorage.getItem("UserID")
         }
-        axios.post(`${connURL}/getCustOutDelivery`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    this.setState({
-                        custorder: response.data[0],
-                        custorderdetails: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
+        this.props.filterCustOutforDelivery(data)
     }
 
     submitCancelled = () =>{
         const data = {
             userid :  window.sessionStorage.getItem("UserID")
         }
-        axios.post(`${connURL}/getCustCancelled`,data)
-            .then(response => {
-                console.log("Status Code :", response.status);
-                if( response.status === 200){
-                    this.setState({
-                        custorder: response.data[0],
-                        custorderdetails: response.data[1]
-                    })
-                }
-                else{
-                }
-            })
-            .catch( err => {
-
-            })
+        this.props.filterCustCancelled(data)
     }
 
     render() {
@@ -161,6 +68,7 @@ class CustOrders extends Component {
                             <p style={{fontWeight:"bold", color: "#d32323"}}>Restaurant #: {i.restid}</p>
                             <p style={{fontWeight:"bold"}}>Status : {i.status}</p>
                             {                            
+                                // eslint-disable-next-line array-callback-return
                                 this.props.orders.map(j => {
                                     if(j.orderid === i.orderid.toString()){
                                         return(
@@ -219,7 +127,12 @@ class CustOrders extends Component {
 function mapDispatchToProps(dispatch){
     return{
         custOrders: user => dispatch(custOrders(user)),
-        custOrderDetails: user => dispatch(custOrderDetails(user))
+        custOrderDetails: user => dispatch(custOrderDetails(user)),
+        filterCustDeliv: user => dispatch(filterCustDeliv(user)),
+        filterCustReceived: user => dispatch(filterCustReceived(user)),
+        filterCustPreparing: user => dispatch(filterCustPreparing(user)),
+        filterCustOutforDelivery: user => dispatch(filterCustOutforDelivery(user)),
+        filterCustCancelled: user => dispatch(filterCustCancelled(user))
     };
 }
 
@@ -229,7 +142,8 @@ function mapStateToProps(store){
         message: store.info,
         message2: store.info_orddets,
         orders: store.orders,
-        orderdetails: store.orderdetails
+        orderdetails: store.orderdetails,
+        message3: store.info3
     };
 }
 

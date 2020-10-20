@@ -7,6 +7,8 @@ import {
     CardTitle, CardSubtitle
 } from 'reactstrap';
 import { connURL } from '../../Configure';
+import {connect} from 'react-redux';
+import { searchDishName, searchRestName } from '../../js/actions';
 
 class ViewSearchRest extends Component {
 
@@ -25,39 +27,53 @@ class ViewSearchRest extends Component {
                 searchLocation: this.props.match.params.searchLoc,
                 userid:window.sessionStorage.getItem("UserID")
             }
-            axios.defaults.withCredentials = true;
-            axios.post(`${connURL}/searchLocation`,data)
-                .then(response => {
-                    console.log("Status Code : ",response.status);
-                    if(response.status === 200){
-                        console.log(response.data)
-                        this.setState({
-                            locRest : response.data
-                        })
-                    }else{
-                    }
-                })
-                .catch(err => {
-                    //document.getElementById("invalidLog").style.display='block';
-                })
-                axios.post(`${connURL}/searchDish`,data)
-                    .then(response => {
-                        console.log("Status Code : ",response.status);
-                        if(response.status === 200){
-                            console.log(response.data)
-                            this.setState({
-                                dishRest: response.data
-                            })
-                            console.log(this.state.dishRest)
-                        }else{
-                        }
-                    })
-                    .catch(err => {
-                        // document.getElementById("invalidLog").style.display='block';
-                    })
+            this.props.searchRestName(data);
+            this.props.searchDishName(data);
     }
 
     render() {
+
+        let temp1 = null;
+        if(this.props.locRest !== undefined){
+            temp1 = this.props.locRest.map( i => {
+                return(
+                    <div>
+                        <Card style={{width:375,borderStyle:"solid",borderWidth:1, padding: 5, borderColor:"#cfcfcf", borderRadius: 5}}>
+                            <CardImg top width="363" src={`${connURL}/profimages/` + i.restphoto} alt="Dish Image" />
+                            <CardBody>
+                                <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{i.restname}</CardTitle>
+                                <CardSubtitle style={{fontSize:16,marginTop:10}}>{i.email}</CardSubtitle>
+                                <CardText style={{marginTop:10}}>{i.description}</CardText>
+                                <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>{i.zipcode}</CardText>
+                                <Link className='button' to={`/viewUniRest/${i.userid}`}>Visit</Link>
+                            </CardBody>
+                        </Card>
+                        <br></br>
+                    </div>
+                )
+            })
+        }
+
+        let temp2 = null;
+        if(this.props.dishRest !== undefined){
+            temp2 = this.props.dishRest.map( i => {
+                return(
+                    <div>
+                        <Card style={{width:375,borderStyle:"solid",borderWidth:1, padding: 5, borderColor:"#cfcfcf", borderRadius: 5}}>
+                            <CardImg top width="363" src={`${connURL}/profimages/` + i.restphoto} alt="Dish Image" />
+                            <CardBody>
+                                <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{i.restname}</CardTitle>
+                                <CardSubtitle style={{fontSize:16,marginTop:10}}>{i.email}</CardSubtitle>
+                                <CardText style={{marginTop:10}}>{i.description}</CardText>
+                                <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>{i.zipcode}</CardText>
+                                <Link className='button' to={`/viewUniRest/${i.userid}`}>Visit</Link>
+                            </CardBody>
+                        </Card>
+                        <br></br>
+                    </div>
+                )
+            })
+        }
         return (
             <div>
                 <HeaderBar/>
@@ -68,36 +84,8 @@ class ViewSearchRest extends Component {
                         </div>
                     </div>
                     <div class = "column-right-update">
-                        {Object.keys(this.state.locRest).map(i => 
-                            <div>
-                                <Card style={{width:375,borderStyle:"solid",borderWidth:1, padding: 5, borderColor:"#cfcfcf", borderRadius: 5}}>
-                                    <CardImg top width="363" src={`${connURL}/profimages/` + this.state.locRest[i].restphoto} alt="Dish Image" />
-                                    <CardBody>
-                                    <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{this.state.locRest[i].restname}</CardTitle>
-                                    <CardSubtitle style={{fontSize:16,marginTop:10}}>{this.state.locRest[i].email}</CardSubtitle>
-                                    <CardText style={{marginTop:10}}>{this.state.locRest[i].description}</CardText>
-                                    <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>{this.state.locRest[i].zipcode}</CardText>
-                                    <Link className='button' to={`/viewUniRest/${this.state.locRest[i].userid}`}>Visit</Link>
-                                    </CardBody>
-                                </Card>
-                                <br></br>
-                            </div>
-                        )}
-                        {Object.keys(this.state.dishRest).map(i => 
-                            <div>
-                                <Card style={{width:375,borderStyle:"solid",borderWidth:1, padding: 5, borderColor:"#cfcfcf", borderRadius: 5}}>
-                                    <CardImg top width="50%" src={`${connURL}/profimages/` + this.state.dishRest[i].restphoto} alt="Dish Image" />
-                                    <CardBody>
-                                    <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{this.state.dishRest[i].restname}</CardTitle>
-                                    <CardSubtitle style={{fontSize:16,marginTop:10}}>{this.state.dishRest[i].email}</CardSubtitle>
-                                    <CardText style={{marginTop:10}}>{this.state.dishRest[i].description}</CardText>
-                                    <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>{this.state.dishRest[i].zipcode}</CardText>
-                                    <Link className='button' to={`/viewUniRest/${this.state.dishRest[i].userid}`}>Visit</Link>
-                                    </CardBody>
-                                </Card>
-                            <br></br>
-                        </div>
-                        )}
+                        {temp1}
+                        {temp2}
                     </div>
                 </div>
             </div>
@@ -105,4 +93,22 @@ class ViewSearchRest extends Component {
     }
 }
 
-export default ViewSearchRest
+function mapDispatchToProps(dispatch){
+    return{
+        searchRestName: user => dispatch(searchRestName(user)),
+        searchDishName: user => dispatch(searchDishName(user))
+    };
+}
+
+function mapStateToProps(store){
+    console.log(store);
+    return{
+        message: store.info1,
+        locRest: store.locRest,
+        message2: store.info2,
+        dishRest: store.dishRest
+    };
+}
+
+const ViewSearch = connect(mapStateToProps, mapDispatchToProps)(ViewSearchRest);
+export default ViewSearch;

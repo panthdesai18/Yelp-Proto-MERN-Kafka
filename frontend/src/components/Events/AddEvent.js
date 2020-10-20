@@ -3,6 +3,8 @@ import axios from 'axios'
 import Button from 'react-bootstrap/Button';
 import HeaderBar from '../HeaderBar/HeaderBar'
 import { connURL } from '../../Configure';
+import { connect } from 'react-redux'
+import { addNewEvent } from '../../js/actions';
 
 class AddEvent extends Component {
 
@@ -66,39 +68,10 @@ class AddEvent extends Component {
             eventdate: this.state.eventdate,
             userid:window.sessionStorage.getItem("UserID")
         }
-        axios.defaults.withCredentials = true;
-        axios.post(`${connURL}/addEvent`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    
-                }else{
-                }
-            })
-            .catch(err => {
-
-            })
+        this.props.addNewEvent(data)
     }
 
     submitGetCreatedEvents = (e) => {
-        // var headers = new Headers();
-        //prevent page from refresh
-        // e.preventDefault();
-        // const data = {
-        //     userid:window.sessionStorage.getItem("UserID")
-        // }
-        // axios.defaults.withCredentials = true;
-        // axios.post('http://localhost:3001/getCreatedEvents',data)
-        //     .then(response => {
-        //         console.log("Status Code : ",response.status);
-        //         if(response.status === 200){
-                    
-        //         }else{
-        //         }
-        //     })
-        //     .catch(err => {
-
-        //     })
         this.props.history.push("/createdEvents")
     }
 
@@ -145,4 +118,19 @@ class AddEvent extends Component {
         )
     }
 }
-export default AddEvent
+
+function mapDispatchToProps(dispatch){
+    return{
+        addNewEvent: user => dispatch(addNewEvent(user))
+    };
+}
+
+function mapStateToProps(store){
+    console.log(store);
+    return{
+        message: store.info,
+    };
+}
+
+const AddNewEvent = connect(mapStateToProps, mapDispatchToProps)(AddEvent);
+export default AddNewEvent;

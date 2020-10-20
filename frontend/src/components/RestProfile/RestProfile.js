@@ -165,7 +165,6 @@ class RestProfile extends Component {
                     <div>
                             <ViewDish/>
                     </div>
-                    
                 </div>
                 <div class="cust-column-right">
                     <div style={{borderLeftStyle:"solid", borderLeftWidth:1, borderLeftColor:'#e6e6e6'}}>
@@ -211,5 +210,4 @@ function mapStateToProps(store){
 
 const RestaurantProfile = connect(mapStateToProps, mapDispatchToProps)(RestProfile);
 export default RestaurantProfile;
-
 

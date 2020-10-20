@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import {
     Card, CardImg, CardBody,
@@ -9,7 +8,7 @@ import { Button } from 'semantic-ui-react'
 import { Dropdown } from 'semantic-ui-react'
 import { connURL } from '../../Configure';
 import {connect} from 'react-redux'
-import { cart } from '../../js/actions';
+import { cart, placeOrder } from '../../js/actions';
 
 class Cart extends Component {
 
@@ -24,43 +23,17 @@ class Cart extends Component {
 
     submitPlaceOrder = (e) => {
         e.preventDefault();
-        console.log(this.state.cart)
+        console.log("Submitting Order",this.props.cart1)
         const data = {
-            cart : this.state.cart
+            cart : this.props.cart1
         }
-        axios.post(`${connURL}/placeOrder`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    console.log("Order Placed!")
-                }else{
-                }
-            })
-            .catch(err => {
-                //document.getElementById("invalidLog").style.display='block';
-            })
+        this.props.placeOrder(data)
         window.location.reload(false);
         
     }
 
     componentDidMount(){
-        
         this.props.cart()
-        // axios.defaults.withCredentials = true;
-        // axios.get(`${connURL}/getCart`,)
-        //     .then(response => {
-        //         console.log("Status Code : ",response.status);
-        //         if(response.status === 200){
-        //             console.log(response.data)
-        //             this.setState ({
-        //                 cart: response.data
-        //             })
-        //         }else{
-        //         }
-        //     })
-        //     .catch(err => {
-        //         //document.getElementById("invalidLog").style.display='block';
-        //     })
     }
 
     render() {
@@ -110,7 +83,8 @@ class Cart extends Component {
 
 function mapDispatchToProps(dispatch){
     return{
-        cart: user => dispatch(cart(user))
+        cart: user => dispatch(cart(user)),
+        placeOrder: user => dispatch(placeOrder(user))
     };
 }
 
@@ -118,7 +92,8 @@ function mapStateToProps(store){
     console.log(store);
     return{
         message: store.info,
-        cart1: store.cart
+        cart1: store.cart,
+        message2: store.info1
     };
 }
 

@@ -3,6 +3,8 @@ import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight} from '@fortawesome/free-solid-svg-icons';
 import { connURL } from '../../Configure';
+import { connect } from 'react-redux' 
+import { uploadDishPhoto } from '../../js/actions';
 
 class EditDish extends Component {
 
@@ -13,33 +15,6 @@ class EditDish extends Component {
         }
         console.log(props)
     }
-
-    // componentDidMount(){
-    //     this.setState({
-    //         dishid: this.props.match.params.dishid
-    //     })
-    //     // axios.post('http://localhost:3001/updateDishPhoto',data)
-    //     //     .then(response => {
-    //     //         console.log("Status Code in View Dish : ",response.status);
-    //     //         if(response.status === 200){
-    //     //             console.log("HERE IN ACTIONS - GETTING REST DATA!")
-    //     //             console.log(response.data);
-    //     //             this.setState(
-    //     //             {
-    //     //                 dishes : response.data,
-    //     //                 nodishes: false
-    //     //             })
-    //     //             console.log("DISHES IN VIEW DISH ARE"+this.state.dishes);
-    //     //             Object.keys(this.state.dishes).map(i => 
-    //     //                 console.log(this.state.dishes[i])
-    //     //             )
-    //     //         }else{
-    //     //         }
-    //     //     })
-    //     //     .catch(err => {
-                
-    //     // })
-    // }
 
     photoChange = (event) => {
         console.log(event.target.files[0].name);
@@ -52,7 +27,8 @@ class EditDish extends Component {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        }
+        }        
+        // this.props.uploadDishPhoto(formData)
         axios.post(`${connURL}/updateDishPhoto`,formData, config)
                 .then(response => {
                     console.log("Image Updated!")  
@@ -83,4 +59,17 @@ class EditDish extends Component {
     }
 }
 
-export default EditDish;
+function mapDispatchToProps(dispatch){
+    return{
+        uploadDishPhoto: user => uploadDishPhoto(user)
+    };
+}
+
+function mapStateToProps(store){
+    return{
+        message: store.info
+    };
+}
+
+const RestaurantProfile = connect(mapStateToProps, mapDispatchToProps)(EditDish);
+export default RestaurantProfile;

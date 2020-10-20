@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapPin } from '@fortawesome/free-solid-svg-icons';
-import { connURL } from '../../Configure';
+import {connect} from 'react-redux'
+import { getCoords } from '../../js/actions';
 
 const mapStyles = {
-    width: '25%',
+    width: '26%',
     height: '100%'
 };
 
@@ -21,25 +21,21 @@ class Maps extends Component {
     }
 
     componentDidMount(){
-        axios.post(`${connURL}/getCoordinates`)
-        .then(response => {
-            console.log("Status Code : ",response.status);
-            if(response.status === 200){ 
-                console.log(response.data) 
-                this.setState({
-                    coords: response.data,
-                })
-                console.log("COORDINATES ARE : ", this.state.coords)           
-            }
-            else
-            {
-            }
-        })
-        .catch(err => {
-        })
+        this.props.getCoords()
     }
 
     render() {
+        let temp = null; 
+        if( this.props.coords !== undefined){
+            temp = Object.keys(this.props.coords).map(i=>
+                <Marker
+                    title={this.props.coords[i].restname}
+                    name={'SOMA'}
+                    position={{lat: this.props.coords[i].lat, lng: this.props.coords[i].lng}}
+                    icon={<FontAwesomeIcon icon={faMapPin}/>}
+                />
+                )
+        }
         return (
             <div>
                 <Map
@@ -53,20 +49,28 @@ class Maps extends Component {
                     }
                     }
                 >
-                {Object.keys(this.state.coords).map(i => 
-                        <Marker
-                        title={this.state.coords[i].restname}
-                        name={'SOMA'}
-                        position={{lat: this.state.coords[i].lat, lng: this.state.coords[i].lng}}
-                        icon={<FontAwesomeIcon icon={faMapPin}/>}
-                        />
-                )}
+                {temp}
                 </Map>
             </div>
         )
     }
 }
 
+function mapDispatchToProps(dispatch){
+    return{
+        getCoords: user => dispatch(getCoords(user))
+    }
+}
+
+function mapStateToProps(store){
+    console.log(store)
+    return{
+        message: store.info,
+        coords: store.coords
+    }
+}
+
+const GetMaps = connect(mapStateToProps, mapDispatchToProps)(Maps);
 export default GoogleApiWrapper({
     apiKey: 'AIzaSyB5f3E2sHlB_ppiVsOTX1oVaSsI9WJktss'
-})(Maps);
+}) (GetMaps);

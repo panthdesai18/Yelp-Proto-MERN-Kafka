@@ -380,7 +380,7 @@ app.post('/updateRestPhotoFour',function(req,res){
 
 
 app.post('/updateDishPhoto',function(req,res){
-    console.log("Uploading Dish Photo")
+    console.log("Uploading Dish Photo in Backend!!")
     uploaddish(req, res, err => {
         if (err) {
           res.writeHead(400, {

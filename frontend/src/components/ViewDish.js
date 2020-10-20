@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button
+    CardTitle, CardSubtitle
 } from 'reactstrap';
 import {connect} from 'react-redux';  
-import { dishProfile } from '../../js/actions';
+import { dishProfile } from '../js/actions';
 import axios from 'axios';
 import {Link} from 'react-router-dom'
-import { connURL } from '../../Configure';
+import { connURL } from '../Configure';
 
 
 class ViewDish extends Component {
