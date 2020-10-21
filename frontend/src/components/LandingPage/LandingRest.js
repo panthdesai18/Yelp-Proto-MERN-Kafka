@@ -5,7 +5,6 @@ import Maps from '../Maps/Maps'
 import { connect } from 'react-redux'
 import { filterDelivery, filterDinein, filterPickup } from '../../js/actions'
 
-
 class LandingRest extends Component {
     constructor(props){
         super(props);

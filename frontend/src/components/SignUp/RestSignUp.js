@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button'
 import GoogleButton from 'react-google-button'
 import {restsignUp} from '../../js/actions/index'
 import {connect} from 'react-redux'
-import Axios from 'axios'
 
 class RestSignUp extends Component {
     constructor(props){

@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import {Card} from 'antd'
 import HeaderBar from '../HeaderBar/HeaderBar'
-import { connURL } from '../../Configure';
 import {connect} from 'react-redux';  
 import { restReviews} from '../../js/actions'
-
 
 class RestReviews extends Component {
 
@@ -24,31 +21,6 @@ class RestReviews extends Component {
             
     }
 
-    getUserDetails = (userid) => {
-        console.log(userid)
-        const data = {
-            userid: userid
-        }
-        axios.post(`${connURL}/getUserData`,data)
-            .then(response => {
-                console.log(response.data);
-                if( response.status === 200){
-                    this.setState({
-                        userdetails: response.data
-                    })
-                    console.log("STATE USER DETAILS:", this.state.userdetails)
-                }
-                else{
-
-                }
-            })
-            .catch( err => {
-
-            })
-    }
-
-
-
     render() {
         var temp = null;
         console.log("TEMP IS:" ,temp)
@@ -61,7 +33,7 @@ class RestReviews extends Component {
                             <Card title="Review!" bordered={true} style={{ width: 300, borderStyle:"solid", borderWidth:1, marginTop:10, borderColor:"#cfcfcf", borderRadius: 5, padding: 10, fontWeight: "bold"}}>
                                 <p style={{marginTop:10, color: "#d32323"}}>Rating : {review.reviewno}</p>
                                 <p>Review : {review.reviewdesc}</p>
-                                <p style = {{color: "#d32323"}}class = "cust-link" onClick={ () => this.getUserDetails(review.userid) }>User ID : {review.userid}</p>
+                                <p style = {{color: "#d32323"}}class = "cust-link">User ID : {review.userid}</p>
                             </Card>
                         </div>
                 )  
@@ -75,8 +47,7 @@ class RestReviews extends Component {
                     <div class = "column-left-update">
                         <div style={{color:"#d32323", marginLeft: 190, marginTop: 20}}>
                             <h3>Reviews are : </h3>
-                        </div>
-                        
+                        </div>    
                     </div>
                     <div class = "column-right-update">
                         {temp}

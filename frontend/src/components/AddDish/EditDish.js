@@ -46,7 +46,6 @@ class EditDish extends Component {
                     <div style={{marginLeft:205, width:936}}>
                     <span> Restaurant </span> &nbsp;&nbsp; <span><FontAwesomeIcon icon={faAngleRight}/></span> &nbsp;&nbsp; <span>Dish Photo</span>
                     <h3 style ={{color: "#D32323"}}>Add photo</h3>
-                    
                     <div style={{borderStyle: "dashed",borderRadius:10}}>
                         <h2 style={{marginLeft:300,marginTop:60}}>Drag and Drop your photos here</h2>
                         <div><legend style = {{marginLeft:480}}>OR</legend><br></br></div>

@@ -1,10 +1,8 @@
-import axios from 'axios'
 import React, { Component } from 'react'
 import {
     Card, CardText, CardBody,
     CardTitle, CardSubtitle
 } from 'reactstrap';
-import { connURL } from '../../Configure';
 import HeaderBar from '../HeaderBar/HeaderBar'
 import {connect} from 'react-redux'
 import { registeredEvents } from '../../js/actions';

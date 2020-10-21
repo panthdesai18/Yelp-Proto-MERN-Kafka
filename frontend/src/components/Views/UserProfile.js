@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import 'semantic-ui-css/semantic.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarCheck, faCamera, faIdCard, faTag, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarCheck, faCamera, faTag} from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import HeaderBar from '../HeaderBar/HeaderBar';
-import { connURL } from '../../Configure';
+import { connect } from 'react-redux'
+import { custProfile } from '../../js/actions';
 
 class UserProfile extends Component {
 
@@ -22,23 +22,7 @@ class UserProfile extends Component {
         var data = {
             userid :  this.props.match.params.userid
         }
-        axios.post(`${connURL}/getUserData`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    console.log(response.data)
-                    console.log("firstname", response.data.firstname)
-                    this.setState({
-                        user : response.data           
-                    },() => {
-                        console.log(this.state.user.lastname.charAt(0))
-                    } );
-                }else{
-                }
-            })
-            .catch(err => {
-                
-            })
+        this.props.custProfile(data)
     }
 
     render() {
@@ -49,13 +33,13 @@ class UserProfile extends Component {
                     <div class="custrow-1">
                         <div class="cust-column-left-1" >
                         <div>
-                            <img src = {`${connURL}/profimages/` + this.state.user.profimage} alt="" style ={{height:200, width:200 ,borderRadius:5, marginLeft:200, marginTop:30}}/>
+                            <img src = {this.props.imageURL} alt="" style ={{height:200, width:200 ,borderRadius:5, marginLeft:200, marginTop:30}}/>
                         </div>
                         </div>
                         <div class="cust-column-middle-1">
                             <div style={{marginTop:50}}>
-                            <h1 style={{fontWeight:"bold"}}>{this.state.user.firstname} {this.state.user.lastname}</h1>
-                            <h3 style={{fontWeight:"normal", marginTop:-5}}>{this.state.user.city}, {this.state.user.country}</h3>
+                            <h1 style={{fontWeight:"bold"}}>{this.props.firstname} {this.props.lastname}</h1>
+                            <h3 style={{fontWeight:"normal", marginTop:-5}}>{this.props.city}, {this.props.country}</h3>
                             <span style={{color:"#e1652a"}}><FontAwesomeIcon icon={faUserFriends}/></span>
                             <span style={{paddingLeft:3}}><strong>0</strong></span>
                             <span style={{paddingLeft:3}}>Friends</span>
@@ -67,30 +51,14 @@ class UserProfile extends Component {
                             <span style={{paddingLeft:3}}>Photos</span>
                             </div>   
                         </div>
-                        <div class="cust-column-right-1">
-                            {/* <div style={{marginTop:50}}>
-                                <div style={{borderLeftStyle:"solid", borderLeftWidth:1, borderLeftColor:'#c7c7c7', color:"#2e73b5"}}>
-                                    <div style={{marginLeft:12}}>
-                                        <span><FontAwesomeIcon icon={faCamera}/></span>
-                                        <span class="cust-link" style={{paddingLeft:12}} onClick={this.submitUpdatePhoto}>Add Profile Photo</span>
-                                    </div>
-                                    <div style={{paddingTop:15,marginLeft:12}}>
-                                        <span><FontAwesomeIcon icon={faIdCard}/></span>
-                                        <span class="cust-link" style={{paddingLeft:12}} onClick={this.submitUpdateProfile} >Update Your Profile</span>
-                                    </div>
-                                    <div style={{paddingTop:15,marginLeft:12}}>
-                                        <span><FontAwesomeIcon icon={faUserPlus}/></span>
-                                        <span class="cust-link" style={{paddingLeft:12}}>Find Friends</span>
-                                    </div>
-                                </div>
-                            </div> */}
-                        </div>
+                            <div class="cust-column-right-1">
+                            </div>
                         </div>
                 </div>
                 <div class="custrow">
                 <div class="cust-column-left">
                 <div>
-                    <h3 style={{marginTop:50, marginLeft:200}}>{this.state.user.firstname}&apos;s Profile</h3>
+                    <h3 style={{marginTop:50, marginLeft:200}}>{this.props.firstname}&apos;s Profile</h3>
                 </div>
                 <div style={{marginLeft:160, marginTop:10}}>
                     <ul style={{listStyleType:"none"}}>
@@ -128,28 +96,17 @@ class UserProfile extends Component {
                 </div>    
                 </div>
                 <div class="cust-column-middle">
-                    {/* <div>
-                    <h2 style={{color:"#d32323", fontWeight:"bold",}}>Notifications</h2>
-                    <p style={{marginTop:-10}}>No new friend requests or compliments at this time.</p>
-                    </div>
-                    <div style={{borderBottomStyle:"solid", borderBottomWidth:1,marginTop:10, borderBottomColor:"#e6e6e6"}}>
-                    <h2 style={{color:"#d32323", fontWeight:"bold", marginTop:-5}}>Recent Activity</h2>
-                    </div>
-                    <div style={{textAlign:"center"}}>
-                        <br></br>
-                        <p>We don't have any recent activity or you right now.</p>
-                    </div> */}
                 </div>
                 <div class="cust-column-right">
                     <div style={{borderLeftStyle:"solid", borderLeftWidth:1, borderLeftColor:'#e6e6e6'}}>
-                        <h3 style={{color:"#d32323", marginLeft:12}}>About {this.state.user.firstname} {this.state.user.lastname}</h3>
+                        <h3 style={{color:"#d32323", marginLeft:12}}>About {this.props.firstname} {this.props.lastname}</h3>
                         <p style={{marginTop:-10, marginLeft:12}}>Some text..</p>
                         <h4 style={{marginTop:0, marginLeft:12}}>Location</h4>
                         <p style={{marginTop:-10, marginLeft:12}}>Central San Jose, San Jose, CA</p>
                         <h4 style={{marginTop:0, marginLeft:12}}>Yelping Since</h4>
                         <p style={{marginTop:-10, marginLeft:12}}>August 2019</p>
                         <h4 style={{marginTop:0, marginLeft:12}}>Things I love</h4>
-                        <p style={{marginTop:-10, marginLeft:12}}>You havent told us yet.. do tell! </p>
+                        <p style={{marginTop:-10, marginLeft:12}}>{this.props.ilove} </p>
                     </div>
                 </div>
                 </div>
@@ -158,4 +115,32 @@ class UserProfile extends Component {
     }
 }
 
-export default UserProfile
+function mapDispatchToProps(dispatch){
+    return{
+        custProfile: user => dispatch(custProfile(user))
+    };
+}
+
+function mapStateToProps(store){
+    return{
+        message: store.message,
+        userid: store.userid,
+        firstname: store.firstname,
+        lastname: store.lastname,
+        imageURL: store.imageSrc,
+        email : store.email,
+        headline : store.headline,
+        city : store.city,
+        state : store.state,
+        country : store.country,
+        birthday : store.birthday,
+        address : store.address,
+        blog : store.blog,
+        zipcode : store.zipcode,
+        ilove: store.ilove,
+        nickname : store.nickname
+    };
+}
+
+const CustomerProfile = connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default CustomerProfile;

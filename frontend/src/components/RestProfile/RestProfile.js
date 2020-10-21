@@ -10,8 +10,6 @@ import {connect} from 'react-redux';
 import { restProfile } from '../../js/actions';
 import ViewDish from '../ViewDish';
 import {dishProfile} from '../../js/actions';
-import axios from 'axios';
-import { connURL } from '../../Configure';
 
 class RestProfile extends Component {
 
@@ -32,30 +30,7 @@ class RestProfile extends Component {
             userid :  window.sessionStorage.getItem("UserID")
         }
         this.props.restProfile(data);
-        var data1 = {
-            dishid :  window.sessionStorage.getItem("UserID")
-        }
-        //this.props.dishProfile(data1);
-        axios.post(`${connURL}/getDishData`,data1)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    console.log("HERE IN ACTIONS - GETTING DISH DATA!")
-                    console.log(response.data);
-                    this.setState(
-                    {
-                        disharr: response.data
-                    })
-                    console.log("ASDAWDAWDSADAWDADAWDAWDA"+this.state.disharr);
-                    Object.keys(this.state.disharr).map(i => 
-                        console.log(this.state.disharr[i])
-                    )
-                }else{
-                }
-            })
-            .catch(err => {
-                
-        })
+        
     }
     submitUpdateProfile = () => {
         this.props.history.push(`/updateRest`);
@@ -163,7 +138,7 @@ class RestProfile extends Component {
                 </div>
                 <div class="cust-column-middle">
                     <div>
-                            <ViewDish/>
+                        <ViewDish/>
                     </div>
                 </div>
                 <div class="cust-column-right">

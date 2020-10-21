@@ -88,17 +88,17 @@ class HeaderBar extends Component {
             <div>
                 <div style={{borderBottomStyle:"solid", borderBottomColor:"#e6e6e6", borderBottomWidth:1}}>
                     <div style = {{paddingTop:0}}>
-                    <img onClick={this.submitLandingPage} style ={{height:40,width:80, marginLeft:20}}src="https://s3-media0.fl.yelpcdn.com/assets/public/default@2x.yji-a536dc4612adf182807e56e390709483.png" alt=""></img>
-                    <span><Input onChange={this.searchDishChangeHandler} icon="" placeholder='Dish Name' style={{width:350,marginLeft:40}}/></span>
-                    <span><button onClick={this.submitDishSearch} style ={{marginLeft:-18}} class="ui icon button"><i class="search icon"></i></button></span>
-                    <span><Input onChange={this.searchLocChangeHandler} type="text" icon="" placeholder='Location' style={{width:350,marginLeft:16}}/></span>
-                    <span><button onClick={this.submitLocSearch} style ={{marginLeft:-18}} class="ui icon button"><i class="search icon"></i></button></span>
-                    <span style={{marginLeft:50, fontWeight:"bold", fontSize:17}}>For Businesses</span>
-                    <span style={{marginLeft:40, fontWeight:"bold", fontSize:17}}>Write A Review</span>
-                    <span style={{marginLeft:50}}><FontAwesomeIcon onClick={this.handleCart} icon={faShoppingCart}/></span>
-                    <span style={{marginLeft:40}}><FontAwesomeIcon onClick = {this.handleRestProfile} icon={faBell}/></span>
-                    <span style={{marginLeft:40}} onClick = {this.handleLogout}><Image src='https://s3-media0.fl.yelpcdn.com/assets/srv0/yelp_styleguide/7e4e0dfd903f/assets/img/default_avatars/user_large_square.png' avatar /></span>
-                    <span></span>
+                        <img onClick={this.submitLandingPage} style ={{height:40,width:80, marginLeft:20}}src="https://s3-media0.fl.yelpcdn.com/assets/public/default@2x.yji-a536dc4612adf182807e56e390709483.png" alt=""></img>
+                        <span><Input onChange={this.searchDishChangeHandler} icon="" placeholder='Dish Name' style={{width:350,marginLeft:40}}/></span>
+                        <span><button onClick={this.submitDishSearch} style ={{marginLeft:-18}} class="ui icon button"><i class="search icon"></i></button></span>
+                        <span><Input onChange={this.searchLocChangeHandler} type="text" icon="" placeholder='Location' style={{width:350,marginLeft:16}}/></span>
+                        <span><button onClick={this.submitLocSearch} style ={{marginLeft:-18}} class="ui icon button"><i class="search icon"></i></button></span>
+                        <span style={{marginLeft:50, fontWeight:"bold", fontSize:17}}>For Businesses</span>
+                        <span style={{marginLeft:40, fontWeight:"bold", fontSize:17}}>Write A Review</span>
+                        <span style={{marginLeft:50}}><FontAwesomeIcon onClick={this.handleCart} icon={faShoppingCart}/></span>
+                        <span style={{marginLeft:40}}><FontAwesomeIcon onClick = {this.handleRestProfile} icon={faBell}/></span>
+                        <span style={{marginLeft:40}} onClick = {this.handleLogout}><Image src='https://s3-media0.fl.yelpcdn.com/assets/srv0/yelp_styleguide/7e4e0dfd903f/assets/img/default_avatars/user_large_square.png' avatar /></span>
+                        <span></span>
                     </div>
                     <div>
                         <Dropdown text='Restaurants' style={{marginLeft:205, paddingTop:10, marginBottom:10}}>

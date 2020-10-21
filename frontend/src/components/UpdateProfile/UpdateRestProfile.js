@@ -46,41 +46,6 @@ class UpdateRestProfile extends Component {
                 phno : this.props.phno
             })
         }, 2000)
-    //     axios.post('http://localhost:3001/getUserData',data)
-    //         .then(response => {
-    //             console.log("Status Code : ",response.status);
-    //             if(response.status === 200){
-    //                 console.log(response.data)
-    //                 console.log("firstname", response.data.firstname)
-    //                 Object.keys(response.data).forEach(function(key) {
-    //                     if(response.data[key] === null || response.data[key] === 'null'){
-    //                         console.log(key)
-    //                         response.data[key] = ''
-    //                     }
-    //                 });
-    //                 this.setState({
-    //                     firstname : response.data.firstname,   
-    //                     lastname : response.data.lastname,
-    //                     location: response.data.zipcode,
-    //                     nickname: response.data.nickname,
-    //                     headline: response.data.headline,
-    //                     ilove: response.data.ilove,
-    //                     address: response.data.address,
-    //                     blog: response.data.blog,
-    //                     email: response.data.email,
-    //                     city: response.data.city,
-    //                     state1: response.data.state,
-    //                     country: response.data.country            
-    //                 });
-                    
-    //             }else{  
-    //             }
-    //         })
-    //         .catch(err => {
-                
-    //         }) 
-             
-    // }
     }
     restnameChangeHandler = (e) => {
         this.setState({
@@ -138,7 +103,6 @@ class UpdateRestProfile extends Component {
                             }
                         })
                         .catch(err => {
-                            //document.getElementById("invalidLog").style.display='block';
                         })
                 }
                 else{
@@ -159,23 +123,9 @@ class UpdateRestProfile extends Component {
             phno: this.state.phno,
             coord: this.state.coord
         }
-        //set the with credentials to true
         
         console.log("SENDING THIS DATA TO UPDATE!")
         console.log(data);
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/updateCust',data)
-        //     .then(response => {
-        //         console.log("Status Code : ",response.status);
-        //         if(response.status === 200){
-                    
-        //         }else{
-        //         }
-        //     })
-        //     .catch(err => {
-        //         //document.getElementById("invalidLog").style.display='block';
-        //     })
         this.props.postRestProfile(data);  
         
     }

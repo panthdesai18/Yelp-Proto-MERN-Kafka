@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Button from 'react-bootstrap/Button';
 import HeaderBar from '../HeaderBar/HeaderBar'
-import { connURL } from '../../Configure';
 import { connect } from 'react-redux'
 import { addNewEvent } from '../../js/actions';
 

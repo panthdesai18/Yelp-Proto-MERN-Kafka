@@ -5,49 +5,17 @@ import { Button } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import ViewDish from '../ViewDish';
-import axios from 'axios';
-import { connURL } from '../../Configure';
 
 class CustRest extends Component {
 
     componentDidMount(){
-        var data = {
-            userid :  window.sessionStorage.getItem("UserID")
-        }
-        axios.post(`${connURL}/getUserData`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    console.log(response.data)
-                    console.log("firstname", response.data.firstname)
-                    this.setState({
-                        firstname : response.data.firstname,   
-                        lastname : response.data.lastname,
-                        imageSrc : `${connURL}/profimages/`+response.data.profimage           
-                    },() => {
-                        console.log(this.state.imageSrc)
-                    } );
-                }else{
-                }
-            })
-            .catch(err => {
-                
-            })
-        axios.post(`${connURL}/getRestData`, data)
-            .then(response => {
-                console.log("Status Code:", response.status);
-                if(response.status === 200){
-                    console.log(response.data)
-                }
-            })
     }
-
     
     render() {
         return (
             <div>
                 <div>
-                    {/* <HeaderBar/> */}
+                    <HeaderBar/>
                 </div>
                 <div>
                     <div class="row-rest">
@@ -72,7 +40,7 @@ class CustRest extends Component {
                     <h1>Restaurant Name!</h1>
                     <Rating name="size-large" defaultValue={2} size="large"/><br></br>
                     <Button style={{backgroundColor:"#F43939", color:"white"}}><FontAwesomeIcon icon={faStar}></FontAwesomeIcon>Write A Review</Button>
-                    {/* <ViewDish></ViewDish> */}
+                    <ViewDish></ViewDish>
                 </div>
             </div>
         )

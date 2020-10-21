@@ -11,7 +11,6 @@ import {REST_POST_UPDATE} from '../constants/action-types'
 import {DISH_PROFILE} from '../constants/action-types'
 import axios from 'axios';
 import { connURL } from '../../Configure'
-import { IconGroup } from 'semantic-ui-react'
 
 export function signUp(payload){
     console.log("Attempting User Creation!")
@@ -1191,57 +1190,34 @@ export function getRegisteredUsers(payload){
 }
 
 export function uploadDishPhoto(payload){
-    console.log("Uploading Dish----------------- Photo")
+    console.log("Uploading Dish Photo")
+    let input = {}
+    return(dispatch) => {
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        axios.post(`${connURL}/updateDishPhoto`, payload, config)
+            .then( response => {
+                console.log("Status Code : ", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - UPLOADING DISH PHOTO")
+                    input = {
+                        message: "Dish Photo Uploaded"
+                    }
+                    window.location.replace('/restProfile')
+                    dispatch({type: DISH_PHOTO, input})
+                }
+                else{
 
-    return async dispatch => {
-        console.log("Trying.......")
-        // axios.post(`${connURL}/getEventDetails`, payload)
-        //     .then(response => {
-        //         console.log("Status Code : " ,response.status)
-        //         if(response.status === 200){
-        //             console.log("HERE IN ACTIONS - GETTING REGISTERED USERS!")
-        //             input = {
-        //                 message: "Registered Users: ",
-        //                 users: response.data
-        //             }
-        //         }
-        //         else{
-
-        //         }
-        //         dispatch({type: GET_REG_USERS, input})
-        //     })
-        //     .catch(err => {
-
-        //     })
-    }
-    // let input = {}
-    // return(dispatch) => {
-    //     console.log("calling backend")
-    //     const config = {
-    //         headers: {
-    //             'content-type': 'multipart/form-data'
-    //         }
-    //     }
-    //     axios.post(`${connURL}/updateDishPhoto`, payload, config)
-    //         .then( response => {
-    //             console.log("Status Code : ", response.status)
-    //             if(response.status === 200){
-    //                 console.log("HERE IN ACTIONS - UPLOADING DISH PHOTO")
-    //                 let input = {
-    //                     message: "Dish Photo Uploaded"
-    //                 }
-    //                 window.location.replace('/restProfile')
-    //                 dispatch({type: DISH_PHOTO, input})
-    //             }
-    //             else{
-
-    //             }
+                }
                 
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    // }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 }
 
 export function logout(payload){

@@ -3,36 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faComment, faMotorcycle, faUtensils} from '@fortawesome/free-solid-svg-icons';
 import { Image } from 'semantic-ui-react';
 import { Input } from 'semantic-ui-react';
-import axios from 'axios';
-import { connURL } from '../../Configure';
 
 
 class LandingPage extends Component {
-
-    componentDidMount(){
-        var data = {
-            userid :  window.sessionStorage.getItem("UserID")
-        }
-        axios.post(`${connURL}/getUserData`,data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 200){
-                    console.log(response.data)
-                    console.log("firstname", response.data.firstname)
-                    this.setState({
-                        firstname : response.data.firstname,   
-                        lastname : response.data.lastname,
-                        imageSrc : `${connURL}/profimages/`+response.data.profimage           
-                    },() => {
-                        console.log(this.state.imageSrc)
-                    } );
-                }else{
-                }
-            })
-            .catch(err => {
-                
-            })
-    }
 
     submitRestaurants = () => {
         this.props.history.push(`/restaurants`);
