@@ -42,6 +42,9 @@ class RestSignUp extends Component {
             location : e.target.value
         })
     }
+    submitToLogin = (e) => {
+        this.props.history.push('/restLogin')
+    }
     submitSignUp = (e) => {
         // var headers = new Headers();
         //prevent page from refresh
@@ -114,7 +117,7 @@ class RestSignUp extends Component {
                                 <Button onClick={this.submitSignUp} style={{backgroundColor:"#d32323",width:310, height:34, marginTop:3, color:"white", fontWeight:"bold"}}>Sign Up</Button> 
                                 <br></br>
                                 <label style={{fontSize:12}}>Already on Yelp?</label>
-                                <span style={{fontSize:12}}> Login</span>
+                                <span style={{fontSize:12}} onClick = {this.submitToLogin}> Login</span>
                             </Form>
                         </div>
 

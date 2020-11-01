@@ -50,6 +50,9 @@ class SignUp extends Component {
             location : e.target.value
         })
     }
+    submitLogin = (e) => {
+        this.props.history.push('/login');
+    }
     submitSignUp = (e) => {
         // var headers = new Headers();
         //prevent page from refresh
@@ -98,24 +101,11 @@ class SignUp extends Component {
                                 <h6 style = {{marginTop:-40}}>acknowledge Yelp's Privacy Policy. </h6>
                                 <br></br>
                             </div>
-                            {/* <div style = {{marginTop:-30}}>
-                                <AppleLogin clientId="com.react.apple.login" redirectURI="" />
-                                <br></br>
-                            </div>
-                            <div style = {{marginTop:"-10", maxWidth:"30"}}>
-                                <FacebookLogin style ={{marginTop:"-10"}} cssClass="my-facebook-button-class" icon="fa-facebook" label = 'Continue with Facebook'/>
-                                <br></br>
-                            </div>    
-                            <div style = {{marginTop:10}}>
-                                <GoogleButton style={{marginLeft:"40%",marginTop:"", height:50, width:140, alignContent:"center"}} label = 'Continue with Google'/>
-                            </div> */}
                             <div style = {{marginLeft:"28%", marginTop:-30,backgroundColor:"black", width:300, height:40,textAlign:"center",color:"white", fontWeight:"bold"}}>
-                                {/* <AppleLogin style = {{height:40, width:300}}clientId="com.react.apple.login" redirectURI="" /> */}
                                 Continue with Apple
                                 <br></br>
                             </div>
                             <div style = {{marginLeft:"28%", marginTop:15,backgroundColor:"white", width:300, height:40,textAlign:"center",color:"#43609C", fontWeight:"bold", borderStyle:"solid"}}>
-                                {/* <FacebookLogin style ={{marginTop:"-10", height: 40, width: 300}} cssClass="my-facebook-button-class" icon="fa-facebook" label = 'Continue with Facebook'/> */}
                                 Continue with Facebook
                                 <br></br>
                             </div>    
@@ -166,7 +156,7 @@ class SignUp extends Component {
                                 <Button onClick={this.submitSignUp} style={{backgroundColor:"#d32323",width:310, height:34, marginTop:3, color:"white", fontWeight:"bold"}}>Sign Up</Button> 
                                 <br></br>
                                 <label style={{fontSize:12}}>Already on Yelp?</label>
-                                <span style={{fontSize:12}}> Login</span>
+                                <span style={{fontSize:12}} onClick = {this.submitLogin}> Login</span>
                             </Form>
                         </div>
 

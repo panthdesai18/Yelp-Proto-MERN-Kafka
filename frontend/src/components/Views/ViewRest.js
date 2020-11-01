@@ -48,7 +48,7 @@ class ViewRest extends Component {
                             <CardSubtitle style={{fontSize:16,marginTop:10}}>{i.email}</CardSubtitle>
                             <CardText style={{marginTop:10}}>{i.description}</CardText>
                             <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>{i.zipcode}</CardText>
-                            <Link style={{fontWeight: "bold", fontSize: 17}} className='button' to={`/viewUniRest/${i.userid}`}>Visit</Link>
+                            <Link style={{fontWeight: "bold", fontSize: 17}} className='button' to={`/viewUniRest/${i._id}`}>Visit</Link>
                             </CardBody>
                         </Card>
                         <br></br>

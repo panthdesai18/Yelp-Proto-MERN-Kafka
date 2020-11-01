@@ -29,29 +29,12 @@ class Login extends Component {
     }
 
     submitLogin = (e) => {
-        // var headers = new Headers();
-        //prevent page from refresh
         e.preventDefault();
         const data = {
             username : this.state.username,
             password : this.state.password,
         }
         this.props.login(data);
-        // //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/login',data)
-        //     .then(response => {
-        //       if(response.status === 200)
-        //       {
-        //           console.log(response.data)
-        //           window.sessionStorage.setItem("UserID", response.data)
-        //           window.location.replace('/custProfile')
-        //       }
-        //     })
-        //     .catch(err => {
-
-        //     })
     }
 
     submitsignup = () => {

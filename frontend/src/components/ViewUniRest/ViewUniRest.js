@@ -81,7 +81,7 @@ class ViewUniRest extends Component {
                             <CardSubtitle style={{fontSize:16,marginTop:10}}>{i.category}</CardSubtitle>
                             <CardText style={{marginTop:10}}>{i.description}</CardText>
                             <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>$ {i.price}</CardText>
-                            <Button style={{width:338, backgroundColor:"#d32323", color: "white", fontWeight: "bold"}}onClick = { () =>this.submitAddToCart(i.dishid)}>Add to Cart</Button>
+                            <Button style={{width:338, backgroundColor:"#d32323", color: "white", fontWeight: "bold"}}onClick = { () =>this.submitAddToCart(i._id)}>Add to Cart</Button>
                         </CardBody>
                     </Card>
                 )

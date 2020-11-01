@@ -60,6 +60,7 @@ const { getCustCancelledOrd } = require('./Customer/GetCustomerCancelledOrders')
 const { getCreatedEvents } = require('./Restaurant/GetCreatedEvents');
 const { getEventDetails } = require('./Restaurant/GetEventDetails');
 const { getEventRegisteredUsers } = require('./Restaurant/GetEventRegisteredUser');
+
 module.exports = app;
 app.use(express.static('public'))
 

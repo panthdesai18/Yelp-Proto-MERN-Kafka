@@ -12,7 +12,6 @@ class RestLogin extends Component {
             username : "",
             password : ""
         }
-        //Bind the handlers to this class
         this.usernameChangeHandler = this.usernameChangeHandler.bind(this);
         this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
         this.submitLogin = this.submitLogin.bind(this);
@@ -27,36 +26,17 @@ class RestLogin extends Component {
             password : e.target.value
         })
     }
-
+    submitToSignUp = (e) => {
+        this.props.history.push('/restSignup')
+    }
     submitLogin = (e) => {
-        // var headers = new Headers();
-        //prevent page from refresh
         e.preventDefault();
         const data = {
             username : this.state.username,
             password : this.state.password,
         }
         this.props.restlogin(data);
-        // //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/login',data)
-        //     .then(response => {
-        //       if(response.status === 200)
-        //       {
-        //           console.log(response.data)
-        //           window.sessionStorage.setItem("UserID", response.data)
-        //           window.location.replace('/custProfile')
-        //       }
-        //     })
-        //     .catch(err => {
-
-        //     })
     }
-
-    submitsignup = () => {
-        this.props.history.push(`/signUp`);
-    };
 
     render() {
         return (
@@ -80,24 +60,11 @@ class RestLogin extends Component {
                                 <h6 style = {{marginTop:-40}}>Yelp's Privacy Policy. </h6>
                                 <br></br>
                             </div>
-                            {/* <div style = {{marginTop:-30}}>
-                                <AppleLogin clientId="com.react.apple.login" redirectURI="" />
-                                <br></br>
-                            </div>
-                            <div style = {{marginTop:-10, maxWidth:"30"}}>
-                                <FacebookLogin style={{marginTop:"", height:30, width:140}} cssClass="my-facebook-button-class" icon="fa-facebook" label = 'Continue with Facebook'/>
-                                <br></br>
-                            </div>    
-                            <div style = {{marginTop:10}}>
-                                <GoogleButton style={{marginLeft:"40%",marginTop:"", height:50, width:140, alignContent:"center"}} label = 'Continue with Google'/>
-                            </div> */}
                             <div style = {{marginLeft:"28%", marginTop:-30,backgroundColor:"black", width:300, height:40,textAlign:"center",color:"white", fontWeight:"bold"}}>
-                                {/* <AppleLogin style = {{height:40, width:300}}clientId="com.react.apple.login" redirectURI="" /> */}
                                 Continue with Apple
                                 <br></br>
                             </div>
                             <div style = {{marginLeft:"28%", marginTop:15,backgroundColor:"white", width:300, height:40,textAlign:"center",color:"#43609C", fontWeight:"bold", borderStyle:"solid"}}>
-                                {/* <FacebookLogin style ={{marginTop:"-10", height: 40, width: 300}} cssClass="my-facebook-button-class" icon="fa-facebook" label = 'Continue with Facebook'/> */}
                                 Continue with Facebook
                                 <br></br>
                             </div>    
@@ -124,7 +91,7 @@ class RestLogin extends Component {
                             <br></br>
                             <Button onClick={this.submitLogin} style={{backgroundColor:"#d32323",width:310, height:34, marginTop:3, color:"white", fontWeight:"bold"}}>Sign In</Button> 
                             <br></br>
-                            <Form.Text className="text-muted">
+                            <Form.Text className="text-muted" onClick = {this.submitToSignUp}>
                                 New to Yelp? Sign Up.
                             </Form.Text>
                         </Form>
