@@ -103,35 +103,23 @@ class RestOrders extends Component {
             { key: 5, text: 'Cancelled', value: 5}
         ]
 
-        if(this.props.orderdetails !== undefined){
+        if((this.props.orderdetails !== undefined) && (this.props.orders !== undefined)){
             temp=this.props.orderdetails.map(i => {
                 return (<div style ={{borderStyle:"solid", borderWidth:1 , width: 300, marginTop: 20, padding:10, borderRadius: 5, borderColor: "#cfcfcf"}}>
-                            <p style={{fontWeight:"bold"}}>Order #{i.orderid}</p>
+                            <p style={{fontWeight:"bold"}}>Order #{i._id}</p>
                             <p style={{fontWeight:"bold", color:"#d32322"}} class="cust-link">User #{i.userid}</p>
-                            {Object.keys(this.state.userdetails).map(j =>
-                                <Modal
-                                    title={this.state.userdetails.firstname}
-                                    visible={this.state.visible}
-                                    onOk={this.handleOk}
-                                    onCancel={this.handleCancel}
-                                >
-                                <p>{this.state.userdetails.email}</p>
-                                <p>{this.state.userdetails.address}</p>
-                                <p>{this.state.userdetails.city}</p>
-                            </Modal>
-                            )}
-                            <Dropdown onChange={this.changeStatusHandler} id = 'dropdown' name = {i.orderid} placeholder={i.status} options={options} fluid selection />
-                            <Button style={{marginTop:10, backgroundColor:"#d32323", color:"white", width:280}}onClick={ () => this.submitChangeStatus(i.orderid) }>Update Status</Button>
                             {                            
                                 // eslint-disable-next-line array-callback-return
-                                this.props.orders.map(j => {
-                                    if(j.orderid === i.orderid.toString()){
+                                this.props.orders[0].map(j => {
+                                    if(j.orderid === i._id){
                                         return(
                                             <h4>{j.dishid}</h4>
                                         )
                                     }
                                 })
                             }
+                            <Dropdown onChange={this.changeStatusHandler} id = 'dropdown' name = {i.orderid} placeholder={i.status} options={options} fluid selection />
+                            <Button style={{marginTop:10, backgroundColor:"#d32323", color:"white", width:280}}onClick={ () => this.submitChangeStatus(i._id) }>Update Status</Button>
                         </div>)
             })
         }

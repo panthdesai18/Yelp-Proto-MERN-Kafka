@@ -1,35 +1,17 @@
-const pool = require('../../Config')
+const kafka = require('../../kafka/client')
 
 exports.getRestCancelledOrd =  (req,res) => {
 
-    var resultfinal=[];
-    console.log("Getting Delivered Orders!")
-    console.log(req.body)
-    var user = "SELECT * FROM yelp_proto.order where restid ="+req.body.userid+" AND status = 'Cancelled'";
-    console.log(user)
-    pool.query(user, (err, result) => {
-        if (err) throw err;
-        if(result.length > 0)
-        {
-            resultfinal.push(result)
-            console.log("ARRAY IS:", resultfinal)
-            // res.end(JSON.stringify(result))
-            var user2 = "SELECT * FROM yelp_proto.orderdetails where orderid = "+result[0].orderid+"";
-            pool.query(user2, (err, result2) => {
-                if(err) throw err;
-                if(result2.length > 0)
-                {   
-                    resultfinal.push(result2)
-                    console.log(JSON.stringify(resultfinal))
-                    res.end(JSON.stringify(resultfinal))
-
-                }
-            })
-
-        }
+    kafka.make_request('get_rest_cancelled',req.body, function(err, results){
+        console.log("Getting All Received Orders")
+        if(err) throw err;
         else{
-            res.writeHead(400,{
+            console.log("Inside else")
+            res.writeHead(200, {
+                'Content-Type': "application/json"
             })
+            console.log(results)
+            res.end(JSON.stringify(results))
         }
-    })
+    } )
 }

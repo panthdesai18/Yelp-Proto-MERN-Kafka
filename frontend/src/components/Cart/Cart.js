@@ -23,12 +23,13 @@ class Cart extends Component {
 
     submitPlaceOrder = (e) => {
         e.preventDefault();
-        console.log("Submitting Order",this.props.cart1)
         const data = {
-            cart : this.props.cart1
+            cart : this.props.cart1,
+            userid: window.sessionStorage.getItem("UserID")
         }
+        console.log("Submitting Order",data)
         this.props.placeOrder(data)
-        window.location.reload(false);
+        // window.location.reload(false);
         
     }
 
@@ -37,22 +38,24 @@ class Cart extends Component {
     }
 
     render() {
-        console.log("PROPS ARE:", this.props.cart1)
+        
         const options = [
             { key: 1, text: 'Pick Up', value: 1 },
             { key: 2, text: 'Delivery', value: 2 }
         ]
 
         let temp = null;
+
         if(this.props.cart1 !== undefined){
-            temp = this.props.cart1.map(i =>{
+            console.log("PROPS ARE IN TEMP:", this.props.cart1)
+            temp = this.props.cart1.dishes.map(i =>{
                 return(
                     <div>
                         <Card style={{width:350,borderStyle:"solid",borderWidth:1, marginTop: 10, borderRadius: 3, padding: 5, borderColor: "#cfcfcf"}}>
                             <CardImg top width="100%" src = {`${connURL}/profimages/` + i.dishphoto} alt="Dish Image" />
                             <CardBody>
-                                <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{i.restname}</CardTitle>
-                                <CardSubtitle style={{fontSize:16,marginTop:10, color: "#d32323",fontWeight:"bold"}}>{i.dishName}</CardSubtitle>
+                                <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{i.restaurant}</CardTitle>
+                                <CardSubtitle style={{fontSize:16,marginTop:10, color: "#d32323",fontWeight:"bold"}}>{i.dishname}</CardSubtitle>
                             </CardBody>
                         </Card>
                         <br></br>

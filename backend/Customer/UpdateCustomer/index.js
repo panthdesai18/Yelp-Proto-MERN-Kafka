@@ -1,15 +1,19 @@
-const pool = require('../../Config')
+const kafka = require('../../kafka/client')
 
 exports.updateCustomer = function(req,res){
-    console.log("Updating Customer!")
-    console.log(req.body);
-        var sql = "UPDATE user SET firstname = '"+ req.body.firstname +"' , lastname = '"+ req.body.lastname +"', nickname = '"+ req.body.nickname +"', headline = '"+ req.body.headline +"', ilove = '"+ req.body.ilove +"', blog = '"+ req.body.blog +"', city = '"+ req.body.city +"', state = '"+ req.body.state +"', country = '"+ req.body.country +"' , address = '" + req.body.address + "' WHERE userid = '"+ req.body.userid +"' ";
-
-        pool.query(sql, function (err, result) {
-            if (err) throw err;
-            res.send({
-                message: 'Table Data',
-                Total_record:result.length,result:result
-            });
-        }); 
+    
+    kafka.make_request('update_customer', req.body, function(err,results){
+        console.log('in result');
+        console.log(results);
+        if (err){
+            console.log("Inside err");
+            res.json({
+                status:"error",
+                msg:"System Error, Try Again."
+            })
+        }else{
+            console.log("Inside else");
+                res.end();
+            }
+    });
 }

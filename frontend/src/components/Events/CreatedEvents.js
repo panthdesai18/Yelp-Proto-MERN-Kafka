@@ -53,20 +53,6 @@ class CreatedEvents extends Component {
             eventid : eventid
         }
         this.props.getRegisteredUsers(data)
-        // axios.post(`${connURL}/getEventDetails`,data)
-        //     .then(response => {
-        //         console.log("Status Code : ",response.status);
-        //         console.log(response.data)
-        //         if(response.status === 200){
-        //             this.setState({
-        //                 user: response.data
-        //             })
-        //         }else{
-        //         }
-        //     })
-        //     .catch(err => {
-        //         //document.getElementById("invalidLog").style.display='block';
-        //     })
 
     }
 
@@ -77,19 +63,20 @@ class CreatedEvents extends Component {
         let temp = null;
         let temp2 = null; 
         if(this.props.user !== undefined){
+             console.log("USERS ARE:", this.props.user)
             temp2 = this.props.user.map( j => {
                 return(
                     <Modal
-                        title={j.firstname}
+                        title={j[0].firstname}
                         visible={this.state.visible}
                         onOk={this.handleOk}
                         onCancel={this.handleCancel}
                         onClick={() => this.showProfile(j.userid)}
                     >
-                        <p>{j.email}</p>
-                        <p>{j.address}</p>
-                        <p>{j.city}</p>
-                        <Link style={{fontWeight: "bold", fontSize: 14}} className='button' to={`/userProfile/${j.userid}`}>Visit</Link>
+                        <p>{j[0].email}</p>
+                        <p>{j[0].address}</p>
+                        <p>{j[0].city}</p>
+                        <Link style={{fontWeight: "bold", fontSize: 14}} className='button' to={`/userProfile/${j[0]._id}`}>Visit</Link>
                     </Modal>
                 )
             })
@@ -102,8 +89,8 @@ class CreatedEvents extends Component {
                             <p style={{marginTop: 10}}>Name : {i.eventname}</p>
                             <p>Description : {i.eventdesc}</p>
                             <p>Location : {i.eventlocation}</p>
-                            <p style ={{color:"#d32323"}}class = "cust-link" onClick={ () => {this.getUserDetails(i.eventid)} }>Show Registered Users</p>
-                            {temp2}
+                            <p>Date : {i.eventdate.substring(0,10)}</p>
+                            <p style ={{color:"#d32323"}}class = "cust-link" onClick={ () => {this.getUserDetails(i._id)} }>Show Registered Users</p>
                         </Card>
                     </div>
                 )
@@ -122,6 +109,7 @@ class CreatedEvents extends Component {
                     <div class = "column-right-update">
                     <div>
                         {temp}
+                        {temp2}
                         </div>
                     </div>
                 </div>

@@ -45,7 +45,7 @@ class ViewDish extends Component {
                             <CardSubtitle style={{fontSize:16,marginTop:10}}>{i.category}</CardSubtitle>
                             <CardText style={{marginTop:10}}>{i.description}</CardText>
                             <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>$ &nbsp; {i.price}</CardText>
-                            <Link style={{fontWeight: "bold", fontSize: 17}} className='button' to={`/editDish/${i.dishid}`}>Add Photo</Link>
+                            <Link style={{fontWeight: "bold", fontSize: 17}} className='button' to={`/editDish/${i._id}`}>Add Photo</Link>
                             </CardBody>
                         </Card>
                         <br></br>

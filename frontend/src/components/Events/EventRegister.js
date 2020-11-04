@@ -21,7 +21,7 @@ class EventRegister extends Component {
     submitRegister = (e) => {
         console.log(this.props.event.eventid)
         const data = {
-            eventid: this.props.event.eventid,
+            eventid: this.props.event._id,
             userid: window.sessionStorage.getItem("UserID")
         }
         console.log(data)

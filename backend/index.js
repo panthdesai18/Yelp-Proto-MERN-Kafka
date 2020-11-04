@@ -10,6 +10,10 @@ const saltRounds = 10;
 var multer = require('multer');
 var path = require('path');
 const e = require('express');
+const Database = require('./Connections')
+var User = require('./models/User')
+var Dishes = require('./models/Dishes')
+var Restaurant = require('./models/Restaurant')
 const { customerSignup } = require('./Customer/CustomerSignup');
 const { restaurantSignup } = require('./Restaurant/RestaurantSignUp');
 const { customerLogin } = require('./Customer/CustomerLogin');
@@ -60,6 +64,7 @@ const { getCustCancelledOrd } = require('./Customer/GetCustomerCancelledOrders')
 const { getCreatedEvents } = require('./Restaurant/GetCreatedEvents');
 const { getEventDetails } = require('./Restaurant/GetEventDetails');
 const { getEventRegisteredUsers } = require('./Restaurant/GetEventRegisteredUser');
+const { getAllUsers } = require('./Customer/GetAllUsers')
 
 module.exports = app;
 app.use(express.static('public'))
@@ -144,6 +149,7 @@ app.post("/getCustCancelled", getCustCancelledOrd)
 app.post("/getCreatedEvents", getCreatedEvents)
 app.post("/getEventDetails", getEventDetails)
 app.post("/getEventRegisteredUser", getEventRegisteredUsers)
+app.post("/getAllUsers", getAllUsers)
 
 const storage = multer.diskStorage({
     destination: './public/profimages/',
@@ -164,16 +170,12 @@ app.post('/updateProfPhoto',function(req,res){
           res.end('Issue with uploading')
         } else {
           filename = req.file.filename;
-          
-          sql = `update user set profimage='${filename}' where userid='`+ req.body.userid+`'`;
-          
-          pool.query(sql, (err, result) => {
-              if (err) {
-                console.log("Error occured : " + err);
-              } else {
-                console.log("Image updated in database")
-              }
-            });
+
+          User.findOneAndUpdate({_id : req.body.userid},{profimage :req.file.filename}, function(err, result) {
+            if (err) throw err;
+                  console.log(result.affectedRows + " record(s) updated");
+                  res.end("Details Updated!");
+                });
           res.writeHead(200, {
             'Content-Type': 'text/plain'
           })
@@ -192,15 +194,20 @@ app.post('/updateRestPhoto',function(req,res){
           res.end('Issue with uploading')
         } else {
           filename = req.file.filename;
-          sql = `update yelp_proto.restaurant set restphoto='${filename}' where userid='`+ req.body.userid+`'`;
+          Restaurant.findOneAndUpdate({_id : req.body.userid},{restphoto :req.file.filename}, function(err, result) {
+            if (err) throw err;
+                  console.log(result.affectedRows + " record(s) updated");
+                  res.end("Details Updated!");
+                });
+          // sql = `update yelp_proto.restaurant set restphoto='${filename}' where userid='`+ req.body.userid+`'`;
           
-            pool.query(sql, (err, result) => {
-              if (err) {
-                console.log("Error occured : " + err);
-              } else {
-                console.log("Image updated in database")
-              }
-            });
+          //   pool.query(sql, (err, result) => {
+          //     if (err) {
+          //       console.log("Error occured : " + err);
+          //     } else {
+          //       console.log("Image updated in database")
+          //     }
+          //   });
          
           res.writeHead(200, {
             'Content-Type': 'text/plain'
@@ -221,15 +228,11 @@ app.post('/updateRestPhotoTwo',function(req,res){
         } else {
           filename = req.file.filename;
 
-          sql = `update yelp_proto.restaurant set restphoto2='${filename}' where userid='`+ req.body.userid+`'`;
-          
-            pool.query(sql, (err, result) => {
-              if (err) {
-                console.log("Error occured : " + err);
-              } else {
-                console.log("Image updated in database")
-              }
-            });
+          Restaurant.findOneAndUpdate({_id : req.body.userid},{restphoto2 :req.file.filename}, function(err, result) {
+            if (err) throw err;
+                  console.log(result.affectedRows + " record(s) updated");
+                  res.end("Details Updated!");
+                });
          
           res.writeHead(200, {
             'Content-Type': 'text/plain'
@@ -250,15 +253,11 @@ app.post('/updateRestPhotoThree',function(req,res){
         } else {
           filename = req.file.filename;
 
-          sql = `update yelp_proto.restaurant set restphoto3='${filename}' where userid='`+ req.body.userid+`'`;
-          
-            pool.query(sql, (err, result) => {
-              if (err) {
-                console.log("Error occured : " + err);
-              } else {
-                console.log("Image updated in database")
-              }
-            });
+          Restaurant.findOneAndUpdate({_id : req.body.userid},{restphoto3 :req.file.filename}, function(err, result) {
+            if (err) throw err;
+                  console.log(result.affectedRows + " record(s) updated");
+                  res.end("Details Updated!");
+                });
          
           res.writeHead(200, {
             'Content-Type': 'text/plain'
@@ -276,14 +275,11 @@ app.post('/updateRestPhotoFour',function(req,res){
           })
           res.end('Issue with uploading')
         } else {
-          filename = req.file.filename;
-          sql = `update yelp_proto.restaurant set restphoto4='${filename}' where userid='`+ req.body.userid+`'`;
-          
-            pool.query(sql, (err, result) => {
-              if (err) {
-              } else {
-              }
-            });
+          Restaurant.findOneAndUpdate({_id : req.body.userid},{restphoto4 :req.file.filename}, function(err, result) {
+            if (err) throw err;
+                  console.log(result.affectedRows + " record(s) updated");
+                  res.end("Details Updated!");
+                });
          
           res.writeHead(200, {
             'Content-Type': 'text/plain'
@@ -307,16 +303,11 @@ app.post('/updateDishPhoto',function(req,res){
     
           filename = req.file.filename;
     
-          sql = `update yelp_proto.dishes set dishphoto='${filename}' where dishid='`+ req.body.dishid+`'`;
-
-          
-            pool.query(sql, (err, result) => {
-              if (err) {
-                console.log("Error occured : " + err);
-              } else {
-                console.log("Image updated in database")
-              }
-            });
+          Dishes.findOneAndUpdate({_id : req.body.dishid},{dishphoto :req.file.filename}, function(err, result) {
+            if (err) throw err;
+                  console.log(result.affectedRows + " record(s) updated");
+                  res.end("Details Updated!");
+                });
          
           res.writeHead(200, {
             'Content-Type': 'text/plain'

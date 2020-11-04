@@ -33,7 +33,7 @@ class ViewSearchRest extends Component {
     render() {
 
         let temp1 = null;
-        if(this.props.locRest !== undefined){
+        if((this.props.locRest !== undefined) && (this.props.locRest !== "")){
             temp1 = this.props.locRest.map( i => {
                 return(
                     <div>
@@ -44,7 +44,7 @@ class ViewSearchRest extends Component {
                                 <CardSubtitle style={{fontSize:16,marginTop:10}}>{i.email}</CardSubtitle>
                                 <CardText style={{marginTop:10}}>{i.description}</CardText>
                                 <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>{i.zipcode}</CardText>
-                                <Link className='button' to={`/viewUniRest/${i.userid}`}>Visit</Link>
+                                <Link className='button' to={`/viewUniRest/${i._id}`}>Visit</Link>
                             </CardBody>
                         </Card>
                         <br></br>
@@ -54,7 +54,7 @@ class ViewSearchRest extends Component {
         }
 
         let temp2 = null;
-        if(this.props.dishRest !== undefined){
+        if((this.props.dishRest !== undefined) && (this.props.dishRest !== "")){
             temp2 = this.props.dishRest.map( i => {
                 return(
                     <div>
@@ -65,7 +65,7 @@ class ViewSearchRest extends Component {
                                 <CardSubtitle style={{fontSize:16,marginTop:10}}>{i.email}</CardSubtitle>
                                 <CardText style={{marginTop:10}}>{i.description}</CardText>
                                 <CardText style={{color:"#D32323", fontWeight:"bold",fontSize:16}}>{i.zipcode}</CardText>
-                                <Link className='button' to={`/viewUniRest/${i.userid}`}>Visit</Link>
+                                <Link className='button' to={`/viewUniRest/${i._id}`}>Visit</Link>
                             </CardBody>
                         </Card>
                         <br></br>

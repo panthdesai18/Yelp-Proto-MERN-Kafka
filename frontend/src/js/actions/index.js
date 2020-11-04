@@ -1,4 +1,4 @@
-import {ADD_DISH, ADD_TO_CART, CART, CREATED_EVENTS, CREATE_EVENT, CUST_ORDERS, CUST_ORDER_DETAILS, CUST_POST_UPDATE, CUST_SIGNUP, DISH_PHOTO, FILTER_CUST_CANORD, FILTER_CUST_DELIVORD, FILTER_CUST_OFDORD, FILTER_CUST_PREPORD, FILTER_CUST_RECORD, FILTER_DELIV_REST, FILTER_DINEIN_REST, FILTER_PICKUP_REST, FILTER_REST_CANCELLED, FILTER_REST_NEW, FILTER_REST_PAST, GET_ALL_DISH, GET_REG_USERS, GET_RESTAURANTS, MAP, PLACE_ORDER, POST_REVIEW, REGISTERED_EVENTS, REST_EVENTS, REST_ORDERS, REST_ORDER_DETAILS, REST_REVIEWS, SEARCH_DISH, SEARCH_REST, UPDATE_STATUS, VIEW_UNIV_REST} from '../constants/action-types'
+import {ADD_DISH, ADD_TO_CART, CART, CREATED_EVENTS, CREATE_EVENT, CUST_ORDERS, CUST_ORDER_DETAILS, CUST_POST_UPDATE, CUST_SIGNUP, DISH_PHOTO, FILTER_CUST_CANORD, FILTER_CUST_DELIVORD, FILTER_CUST_OFDORD, FILTER_CUST_PREPORD, FILTER_CUST_RECORD, FILTER_DELIV_REST, FILTER_DINEIN_REST, FILTER_PICKUP_REST, FILTER_REST_CANCELLED, FILTER_REST_NEW, FILTER_REST_PAST, GET_ALL_DISH, GET_ALL_USERS, GET_REG_USERS, GET_RESTAURANTS, MAP, PLACE_ORDER, POST_REVIEW, REGISTERED_EVENTS, REST_EVENTS, REST_ORDERS, REST_ORDER_DETAILS, REST_REVIEWS, SEARCH_DISH, SEARCH_REST, UPDATE_STATUS, VIEW_UNIV_REST} from '../constants/action-types'
 import {CUST_LOGIN} from '../constants/action-types'
 import {CUST_PROFILE} from '../constants/action-types'
 import {CUST_GET_UPDATE} from '../constants/action-types'
@@ -532,6 +532,30 @@ export function restEvents(payload){
 
                 }
                 dispatch({type: REST_EVENTS, input})
+            })
+            .catch(err => {
+
+            })
+    }
+}
+
+export function getAllUsers(payload){
+    console.log("Gathering All Users!")
+    let input = {}
+    return(dispatch) => {
+        axios.post(`${connURL}/getAllUsers`, payload)
+            .then(response => {
+                console.log("Status Code :", response.status)
+                if(response.status === 200){
+                    console.log("HERE IN ACTIONS - GETTING ALL USERS!")
+                    input = {
+                        message: "Users Data!",
+                        users:response.data
+                    }
+                }else{
+
+                }
+                dispatch({type: GET_ALL_USERS, input})
             })
             .catch(err => {
 

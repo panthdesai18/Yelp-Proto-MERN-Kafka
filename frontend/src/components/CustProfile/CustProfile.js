@@ -29,25 +29,6 @@ class CustProfile extends Component {
             userid :  window.sessionStorage.getItem("UserID")
         }
         this.props.custProfile(data);
-        // axios.post('http://localhost:3001/getUserData',data)
-        //     .then(response => {
-        //         console.log("Status Code : ",response.status);
-        //         if(response.status === 200){
-        //             console.log(response.data)
-        //             console.log("firstname", response.data.firstname)
-        //             this.setState({
-        //                 firstname : response.data.firstname,   
-        //                 lastname : response.data.lastname,
-        //                 imageSrc : 'http://localhost:3001/profimages/'+response.data.profimage           
-        //             },() => {
-        //                 console.log(this.state.imageSrc)
-        //             } );
-        //         }else{
-        //         }
-        //     })
-        //     .catch(err => {
-                
-        //     })
     }
     submitUpdateProfile = () => {
         this.props.history.push(`/updateCust`);
@@ -63,6 +44,10 @@ class CustProfile extends Component {
 
     submitEvent = () => {
         this.props.history.push('/getRestEvents')
+    }
+
+    submitFindFriends = () => {
+        this.props.history.push('/usersTab')
     }
 
     render() {
@@ -106,7 +91,7 @@ class CustProfile extends Component {
                                     </div>
                                     <div style={{paddingTop:15,marginLeft:12}}>
                                         <span><FontAwesomeIcon icon={faUserPlus}/></span>
-                                        <span class="cust-link" style={{paddingLeft:12}}>Find Friends</span>
+                                        <span class="cust-link" style={{paddingLeft:12}} onClick={this.submitFindFriends}>Find Friends</span>
                                     </div>
                                 </div>
                             </div>

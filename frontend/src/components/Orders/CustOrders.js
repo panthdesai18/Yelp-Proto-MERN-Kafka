@@ -59,23 +59,23 @@ class CustOrders extends Component {
     render() {
         let temp=null;
 
-        if(this.props.orderdetails !== undefined){
+        if((this.props.orderdetails !== undefined) && (this.props.orders !== undefined)){
             console.log("PROPS DETAILS", this.props.orderdetails)
             temp=this.props.orderdetails.map(i => {
                 console.log("CUST ORDER",i.orderid, i.status)
                 return (<div style ={{borderStyle:"solid", borderWidth:1 , width: 300, marginTop: 20, padding:10, borderRadius: 5, borderColor: "#cfcfcf"}}>
-                            <p style={{fontWeight:"bold"}}>Order # {i.orderid}</p>
+                            <p style={{fontWeight:"bold"}}>Order # {i._id}</p>
                             <p style={{fontWeight:"bold", color: "#d32323"}}>Restaurant #: {i.restid}</p>
                             <p style={{fontWeight:"bold"}}>Status : {i.status}</p>
                             {                            
                                 // eslint-disable-next-line array-callback-return
                                 this.props.orders.map(j => {
-                                    if(j.orderid === i.orderid.toString()){
+                                    // if(j.orderid === i.orderid.toString()){
                                         return(
                                             <h4 style={{color: "#d32323"}}>{j.dishName}</h4>
                                         )
-                                    }
-                                })
+                                    })
+                                
                             }
                         </div>)
             })
