@@ -24,8 +24,7 @@ function handle_request(msg,callback){
 
             })
         }
-        // callback(null, result)
-        // console.log("After Callback!")
+        
     })
 }
 

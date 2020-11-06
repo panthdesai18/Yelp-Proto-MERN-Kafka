@@ -5,7 +5,7 @@ function handle_request(msg, callback){
     console.log(msg)
     console.log("Searching Dish!")
 
-    Dishes.find({dishname: msg.searchLocation}, function(err,result, fields){
+    Dishes.find({dishname: /msg.searchLocation/}, function(err,result, fields){
         if(err){
             callback(null, "")
         }

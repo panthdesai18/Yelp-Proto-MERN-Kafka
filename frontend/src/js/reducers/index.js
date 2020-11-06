@@ -1,4 +1,4 @@
-import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE, REST_REVIEWS, CUST_ORDERS, CUST_ORDER_DETAILS, REST_ORDERS, REST_ORDER_DETAILS, REST_EVENTS, REGISTERED_EVENTS, CART, GET_RESTAURANTS, VIEW_UNIV_REST, GET_ALL_DISH, MAP, PLACE_ORDER, UPDATE_STATUS, POST_REVIEW, SEARCH_REST, SEARCH_DISH, FILTER_DELIV_REST, FILTER_PICKUP_REST, FILTER_DINEIN_REST, FILTER_CUST_DELIVORD, FILTER_CUST_RECORD, FILTER_CUST_PREPORD, FILTER_CUST_OFDORD, FILTER_CUST_CANORD, FILTER_REST_NEW, FILTER_REST_PAST, FILTER_REST_CANCELLED, ADD_TO_CART, CREATE_EVENT, CREATED_EVENTS, GET_REG_USERS, DISH_PHOTO, GET_ALL_USERS} from '../constants/action-types'
+import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE, REST_REVIEWS, CUST_ORDERS, CUST_ORDER_DETAILS, REST_ORDERS, REST_ORDER_DETAILS, REST_EVENTS, REGISTERED_EVENTS, CART, GET_RESTAURANTS, VIEW_UNIV_REST, GET_ALL_DISH, MAP, PLACE_ORDER, UPDATE_STATUS, POST_REVIEW, SEARCH_REST, SEARCH_DISH, FILTER_DELIV_REST, FILTER_PICKUP_REST, FILTER_DINEIN_REST, FILTER_CUST_DELIVORD, FILTER_CUST_RECORD, FILTER_CUST_PREPORD, FILTER_CUST_OFDORD, FILTER_CUST_CANORD, FILTER_REST_NEW, FILTER_REST_PAST, FILTER_REST_CANCELLED, ADD_TO_CART, CREATE_EVENT, CREATED_EVENTS, GET_REG_USERS, DISH_PHOTO, GET_ALL_USERS, GET_USERS_TAB_USER, GET_FOLLOWING_USERS, SEARCH_USER} from '../constants/action-types'
 const startState = {
     info:null
 }
@@ -391,6 +391,27 @@ function defaultReducer(state = startState, action){
         console.log("Getting all Users")
         return Object.assign({}, state, {
             info: action.input.message,
+            users:action.input.users
+        })
+    }
+    else if(action.type === GET_USERS_TAB_USER){
+        console.log("Getting Individual User's Data")
+        return Object.assign({}, state, {
+            info1: action.input.message,
+            ind_user:action.input.ind_user
+        })
+    }
+    else if(action.type === GET_FOLLOWING_USERS){
+        console.log("Getting Following Users")
+        return Object.assign({}, state, {
+            info: action.input.message,
+            users:action.input.users
+        })
+    }
+    else if(action.type === SEARCH_USER){
+        console.log("Getting Searched User")
+        return Object.assign({}, state ,{
+            info1: action.input.message,
             users:action.input.users
         })
     }

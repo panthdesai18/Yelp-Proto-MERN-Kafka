@@ -14,8 +14,43 @@ class ViewDish extends Component {
     constructor(){
         super();
         this.state = {  
-            dishes: []
+            dishes: [],
+            displaypage: [],
+            currentpage: [],
+            allDishes: []
         }
+    }
+
+    componentWillReceiveProps(){
+        
+        setTimeout(() => {
+            console.log("PROPS are ", this.props.restraurants)
+            this.setState({
+                rest : this.props.restraurants,
+                allDishes : this.props.dishes
+            })
+            var pages = Math.ceil(this.props.dishes.length / 2)
+                            this.setState({displaypage:[]})
+                            for(var j=1;j<=pages;j++){
+                                var joined = this.state.displaypage.concat(j);
+                                this.setState({
+                                    displaypage: joined
+                                })
+                            }
+            this.setState({
+                currentpage: this.props.dishes.slice(0,2)
+            })
+        }, 0)   
+    }
+
+    selectPage = (e) => {
+        var startIndex;
+        var endIndex;
+        startIndex = (e.target.value - 1)*2;
+        endIndex = e.target.value*2;
+        this.setState({
+            currentpage: this.state.allDishes.slice(startIndex, endIndex)
+        })
     }
 
     componentDidMount(){
@@ -35,7 +70,7 @@ class ViewDish extends Component {
     render() {
         let temp = null; 
         if(this.props.dishes !== undefined){
-            temp = this.props.dishes.map(i => {
+            temp = this.state.currentpage.map(i => {
                 return(
                     <div>
                         <Card style={{width:250,borderStyle:"solid",borderWidth:1, padding: 9, borderColor: "#cfcfcf", borderRadius: 4}}>
@@ -55,6 +90,11 @@ class ViewDish extends Component {
         }
         return (
             <div>
+                {this.state.displaypage.map(i => {
+                    return(
+                        <button onClick={this.selectPage} value={i}>{i}</button>
+                    )
+                })}
                 {temp}
             </div>
         )

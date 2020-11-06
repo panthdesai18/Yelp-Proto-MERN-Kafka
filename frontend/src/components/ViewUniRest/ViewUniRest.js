@@ -16,7 +16,10 @@ class ViewUniRest extends Component {
         this.state = {  
             rest: [],
             nodishes: true.restid,
-            dishes: []
+            dishes: [],
+            displaypage: [],
+            currentpage: [],
+            allDishes: []
         }
     }
     
@@ -56,6 +59,37 @@ class ViewUniRest extends Component {
         this.props.addToCart(data)
     }
 
+    componentWillReceiveProps(){
+        
+        setTimeout(() => {
+            console.log("PROPS are ", this.props.restraurants)
+            this.setState({
+                rest : this.props.restraurants,
+                allDishes : this.props.dishes
+            })
+            var pages = Math.ceil(this.props.dishes.length / 2)
+                            this.setState({displaypage:[]})
+                            for(var j=1;j<=pages;j++){
+                                var joined = this.state.displaypage.concat(j);
+                                this.setState({
+                                    displaypage: joined
+                                })
+                            }
+            this.setState({
+                currentpage: this.props.dishes.slice(0,2)
+            })
+        }, 0)   
+    }
+
+    selectPage = (e) => {
+        var startIndex;
+        var endIndex;
+        startIndex = (e.target.value - 1)*2;
+        endIndex = e.target.value*2;
+        this.setState({
+            currentpage: this.state.allDishes.slice(startIndex, endIndex)
+        })
+    }
 
     componentDidMount(){
         console.log("In UNIQ REST" +this.props.match.params.restid)    
@@ -67,12 +101,10 @@ class ViewUniRest extends Component {
         this.props.getAllDish(data)
     }
 
-
-
     render() {
         let temp = null;
         if(this.props.dishes !== undefined){
-            temp = this.props.dishes.map( i => {
+            temp = this.state.currentpage.map( i => {
                 return (
                     <Card style={{width:350,borderStyle:"solid",borderWidth:1, marginTop: 10, borderRadius: 3, padding: 5, borderColor: "#cfcfcf"}}>
                         <CardImg top width="100%" height="250px"src = {`${connURL}/profimages/` + i.dishphoto} alt="Dish Image" />
@@ -152,6 +184,11 @@ class ViewUniRest extends Component {
                         </div>
                         <div style={{marginLeft:190}}>
                             <div style= {{marginTop: 50}}>
+                                {this.state.displaypage.map(i => {
+                                    return(
+                                        <button onClick={this.selectPage} value={i}>{i}</button>
+                                    )
+                                })}
                                 {temp}
                             </div>
                             

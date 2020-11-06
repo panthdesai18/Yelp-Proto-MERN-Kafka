@@ -35,6 +35,7 @@ import UpdateRestPhotoFour from './components/RestProfile/UpdateRestPhotoFour'
 import UserProfile from './components/Views/UserProfile'
 import Messages from './components/Messages/Messages'
 import UserTab from './components/UsersTab/UserTab'
+import FollowingUsers from './components/UsersTab/FollowingUsers'
 
 class Paths extends Component {
     render() {
@@ -76,6 +77,7 @@ class Paths extends Component {
                 <Route path='/userProfile/:userid' component={UserProfile}/>
                 <Route path='/message' component={Messages}/>
                 <Route path='/usersTab' component={UserTab}/>
+                <Route path='/followingUsers' component={FollowingUsers}/>
                 </BrowserRouter>
             </div>
         )
