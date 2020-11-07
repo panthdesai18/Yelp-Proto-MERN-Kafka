@@ -68,6 +68,8 @@ const { getAllUsers } = require('./Customer/GetAllUsers')
 const { followUser } = require('./Customer/FollowUser')
 const { getFollowingUsers } = require('./Customer/GetFollowingUsers')
 const { searchUser } = require('./Customer/SearchUser')
+const { sendMessage } = require('./Restaurant/SendMessage')
+const { getMessage } = require('./Restaurant/GetMessage')
 
 module.exports = app;
 app.use(express.static('public'))
@@ -156,6 +158,8 @@ app.post("/getAllUsers", getAllUsers)
 app.post("/followUser", followUser)
 app.post("/getFollowingUsers", getFollowingUsers)
 app.post("/searchUser", searchUser)
+app.post("/sendMessage", sendMessage)
+app.post("/getMessage", getMessage)
 
 const storage = multer.diskStorage({
     destination: './public/profimages/',

@@ -36,6 +36,7 @@ import UserProfile from './components/Views/UserProfile'
 import Messages from './components/Messages/Messages'
 import UserTab from './components/UsersTab/UserTab'
 import FollowingUsers from './components/UsersTab/FollowingUsers'
+import MessagesCust from './components/Messages/MessagesCust'
 
 class Paths extends Component {
     render() {
@@ -75,7 +76,8 @@ class Paths extends Component {
                 <Route path='/updateRestPhoto3' component={UpdateRestPhotoThree}/>
                 <Route path='/updateRestPhoto4' component={UpdateRestPhotoFour}/>
                 <Route path='/userProfile/:userid' component={UserProfile}/>
-                <Route path='/message' component={Messages}/>
+                <Route path='/message/:userid' component={Messages}/>
+                <Route path='/custmessage/:userid' component={MessagesCust}/>
                 <Route path='/usersTab' component={UserTab}/>
                 <Route path='/followingUsers' component={FollowingUsers}/>
                 </BrowserRouter>

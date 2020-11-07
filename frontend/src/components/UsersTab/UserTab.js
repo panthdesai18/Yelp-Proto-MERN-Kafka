@@ -135,11 +135,14 @@ class UserTab extends Component {
                     </div>
                     <div className="column-right-update">
                         <h3 style={{color : "#d32323", marginLeft:45}}> List of All Users: </h3>
+                        <div style={{marginLeft:40}}>
+
                         {this.state.displaypage.map(i => {
                             return(
-                                <button onClick={this.selectPage} value={i}>{i}</button>
+                                <button style={{marginLeft: 30,borderRadius:100, borderWidth:0.5, backgroundColor:"#d32323", color:"white", fontWeight:"bold"}} onClick={this.selectPage} value={i}>{i}</button>
                             )
                         })}
+                        </div>
                         {temp}
                     </div>
                 </div>

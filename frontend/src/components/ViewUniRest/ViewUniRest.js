@@ -54,7 +54,7 @@ class ViewUniRest extends Component {
             restid: this.props.match.params.restid,
             userid:window.sessionStorage.getItem("UserID"),
             dishid: dishid,
-            restname: this.state.rest.restname 
+            // restname: this.state.rest.restname
         }
         this.props.addToCart(data)
     }
@@ -184,11 +184,13 @@ class ViewUniRest extends Component {
                         </div>
                         <div style={{marginLeft:190}}>
                             <div style= {{marginTop: 50}}>
-                                {this.state.displaypage.map(i => {
-                                    return(
-                                        <button onClick={this.selectPage} value={i}>{i}</button>
-                                    )
-                                })}
+                                <div style={{marginLeft:100}}>
+                                    {this.state.displaypage.map(i => {
+                                        return(
+                                            <button style={{marginLeft: 30,borderRadius:100, borderWidth:0.5, backgroundColor:"#d32323", color:"white", fontWeight:"bold", marginBottom: 10}} onClick={this.selectPage} value={i}>{i}</button>
+                                        )
+                                    })}
+                                </div>
                                 {temp}
                             </div>
                             

@@ -50,6 +50,8 @@ var get_all_users = require('./services/getAllUsers')
 var follow_user = require('./services/followUser')
 var get_following_users =require('./services/getFollowingUsers')
 var search_user = require('./services/searchUser')
+var send_message = require('./services/sendMessage')
+var get_message = require('./services/getMessage')
  
 function handleTopicRequest(topic_name,fname){
     //var topic_name = 'root_topic';
@@ -131,3 +133,5 @@ handleTopicRequest("get_all_users", get_all_users)
 handleTopicRequest("follow_user", follow_user)
 handleTopicRequest("get_following_users", get_following_users)
 handleTopicRequest("search_user", search_user)
+handleTopicRequest("send_message", send_message)
+handleTopicRequest("get_message", get_message)

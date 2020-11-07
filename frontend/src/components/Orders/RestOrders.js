@@ -3,8 +3,8 @@ import { Dropdown } from 'semantic-ui-react'
 import { Button } from 'semantic-ui-react'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import Checkbox from '@material-ui/core/Checkbox';
-import { Modal } from 'antd';
 import {connect} from 'react-redux'
+import { Link } from 'react-router-dom'
 import { filterRestCancelled, filterRestNew, filterRestPast, restOrderDetails, restOrders, updateOrder } from '../../js/actions'
 
 
@@ -120,6 +120,7 @@ class RestOrders extends Component {
                             }
                             <Dropdown onChange={this.changeStatusHandler} id = 'dropdown' name = {i.orderid} placeholder={i.status} options={options} fluid selection />
                             <Button style={{marginTop:10, backgroundColor:"#d32323", color:"white", width:280}}onClick={ () => this.submitChangeStatus(i._id) }>Update Status</Button>
+                            <Link target = "_blank"  style={{fontWeight: "bold", fontSize: 17, color:"#d32323", marginLeft: 100, marginTop: 20}} className='button' to={`/message/${i.userid}`}>Ping User</Link>                        
                         </div>)
             })
         }

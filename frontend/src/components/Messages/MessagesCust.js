@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
-class Messages extends Component {
+class MessagesCust extends Component {
 
     constructor(props){
         super(props);
@@ -28,7 +28,7 @@ class Messages extends Component {
             userid: this.props.match.params.userid,
             restid: window.sessionStorage.getItem("UserID"),
             message :this.state.message,
-            message_side : "restaurant"
+            message_side : "customer"
         }
         console.log(data)
         axios.post('http://localhost:3001/sendMessage',data)
@@ -66,7 +66,7 @@ class Messages extends Component {
                     <div>
                         <div class = "column-left-update">
                             <div style={{marginTop:20,marginLeft:20,fontWeight: "bold" }}>
-                                <h2>Messages</h2>
+                                <h2>Messages Customers</h2>
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@ class Messages extends Component {
                                               <div style={{display:'flex',justifyContent:'flex-end',flexDirection:'row',padding:'.3rem'}}><div style={{backgroundColor:'#f5f5f5',padding:'.5rem',color:'black',margin:'.2rem 0',borderRadius:'10%'}}>{i.message}</div></div>
                                           ) 
                                     }  
-                                })   
+                                })
                         }
                         </div>
                         <div style={{position:"absolute", bottom:5,right:10}}>
@@ -112,4 +112,4 @@ class Messages extends Component {
     }
 }
 
-export default Messages
+export default MessagesCust

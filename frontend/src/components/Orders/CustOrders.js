@@ -3,6 +3,7 @@ import HeaderBar from '../HeaderBar/HeaderBar'
 import Checkbox from '@material-ui/core/Checkbox';
 import {connect} from 'react-redux';  
 import { custOrderDetails, custOrders, filterCustCancelled, filterCustDeliv, filterCustOutforDelivery, filterCustPreparing, filterCustReceived } from '../../js/actions';
+import { Link } from 'react-router-dom'
 
 class CustOrders extends Component {
 
@@ -77,6 +78,8 @@ class CustOrders extends Component {
                                     })
                                 
                             }
+                            <Link target = "_blank"  style={{fontWeight: "bold", fontSize: 17, color:"#d32323", marginLeft: 70}} className='button' to={`/custmessage/${i.userid}`}>Ping Restaurant</Link>                        
+
                         </div>)
             })
         }

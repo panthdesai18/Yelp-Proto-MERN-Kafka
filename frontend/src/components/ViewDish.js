@@ -90,11 +90,13 @@ class ViewDish extends Component {
         }
         return (
             <div>
-                {this.state.displaypage.map(i => {
-                    return(
-                        <button onClick={this.selectPage} value={i}>{i}</button>
-                    )
-                })}
+                <div style={{marginLeft:50}}>
+                    {this.state.displaypage.map(i => {
+                        return(
+                            <button style={{marginLeft: 30,borderRadius:100, borderWidth:0.5, backgroundColor:"#d32323", color:"white", fontWeight:"bold", marginBottom: 10}} onClick={this.selectPage} value={i}>{i}</button>
+                        )
+                    })}
+                </div>
                 {temp}
             </div>
         )
