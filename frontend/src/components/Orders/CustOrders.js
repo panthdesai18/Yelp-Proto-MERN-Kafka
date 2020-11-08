@@ -66,7 +66,7 @@ class CustOrders extends Component {
                 console.log("CUST ORDER",i.orderid, i.status)
                 return (<div style ={{borderStyle:"solid", borderWidth:1 , width: 300, marginTop: 20, padding:10, borderRadius: 5, borderColor: "#cfcfcf"}}>
                             <p style={{fontWeight:"bold"}}>Order # {i._id}</p>
-                            <p style={{fontWeight:"bold", color: "#d32323"}}>Restaurant #: {i.restid}</p>
+                            <p style={{fontWeight:"bold", color: "#d32323"}}>Restaurant : The Cheesecake Factory</p>
                             <p style={{fontWeight:"bold"}}>Status : {i.status}</p>
                             {                            
                                 // eslint-disable-next-line array-callback-return

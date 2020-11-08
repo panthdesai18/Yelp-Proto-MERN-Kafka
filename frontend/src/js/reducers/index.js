@@ -1,4 +1,4 @@
-import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE, REST_REVIEWS, CUST_ORDERS, CUST_ORDER_DETAILS, REST_ORDERS, REST_ORDER_DETAILS, REST_EVENTS, REGISTERED_EVENTS, CART, GET_RESTAURANTS, VIEW_UNIV_REST, GET_ALL_DISH, MAP, PLACE_ORDER, UPDATE_STATUS, POST_REVIEW, SEARCH_REST, SEARCH_DISH, FILTER_DELIV_REST, FILTER_PICKUP_REST, FILTER_DINEIN_REST, FILTER_CUST_DELIVORD, FILTER_CUST_RECORD, FILTER_CUST_PREPORD, FILTER_CUST_OFDORD, FILTER_CUST_CANORD, FILTER_REST_NEW, FILTER_REST_PAST, FILTER_REST_CANCELLED, ADD_TO_CART, CREATE_EVENT, CREATED_EVENTS, GET_REG_USERS, DISH_PHOTO, GET_ALL_USERS, GET_USERS_TAB_USER, GET_FOLLOWING_USERS, SEARCH_USER} from '../constants/action-types'
+import {CUST_LOGIN, CUST_PROFILE, CUST_SIGNUP, CUST_GET_UPDATE, CUST_POST_UPDATE, CUST_LOGOUT, REST_SIGNUP, REST_LOGIN, REST_PROFILE, REST_GET_UPDATE, REST_POST_UPDATE, ADD_DISH, DISH_PROFILE, REST_REVIEWS, CUST_ORDERS, CUST_ORDER_DETAILS, REST_ORDERS, REST_ORDER_DETAILS, REST_EVENTS, REGISTERED_EVENTS, CART, GET_RESTAURANTS, VIEW_UNIV_REST, GET_ALL_DISH, MAP, PLACE_ORDER, UPDATE_STATUS, POST_REVIEW, SEARCH_REST, SEARCH_DISH, FILTER_DELIV_REST, FILTER_PICKUP_REST, FILTER_DINEIN_REST, FILTER_CUST_DELIVORD, FILTER_CUST_RECORD, FILTER_CUST_PREPORD, FILTER_CUST_OFDORD, FILTER_CUST_CANORD, FILTER_REST_NEW, FILTER_REST_PAST, FILTER_REST_CANCELLED, ADD_TO_CART, CREATE_EVENT, CREATED_EVENTS, GET_REG_USERS, DISH_PHOTO, GET_ALL_USERS, GET_USERS_TAB_USER, GET_FOLLOWING_USERS, SEARCH_USER, SEND_MESSAGE_REST, GET_EVENTS_ASC, GET_EVENTS_DESC} from '../constants/action-types'
 const startState = {
     info:null
 }
@@ -147,6 +147,12 @@ function defaultReducer(state = startState, action){
             message: action.input.message
         })
     }
+    else if(action.type === SEND_MESSAGE_REST){
+        console.log("Sending Message")
+        return Object.assign({}, state, {
+            message: action.input.message
+        })
+    }
     else if(action.type === DISH_PROFILE){
         console.log("Gathering Dish Data")
         return Object.assign({},state,{
@@ -193,6 +199,20 @@ function defaultReducer(state = startState, action){
         console.log("Gathering Rest Events")
         return Object.assign({}, state, {
             info: action.input.message,
+            events: action.input.events
+        })
+    }
+    else if(action.type === GET_EVENTS_ASC){
+        console.log("Gathering Events in Ascending!")
+        return Object.assign({}, state, {
+            info1: action.input.message,
+            events: action.input.events
+        })
+    }
+    else if(action.type === GET_EVENTS_DESC){
+        console.log("Gathering Events in Descending!")
+        return Object.assign({}, state, {
+            info2: action.input.message,
             events: action.input.events
         })
     }

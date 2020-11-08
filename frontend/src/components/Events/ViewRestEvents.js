@@ -7,6 +7,9 @@ import { Input } from 'semantic-ui-react';
 import { connURL } from '../../Configure';
 import {connect} from 'react-redux'
 import { restEvents } from '../../js/actions';
+import Checkbox from '@material-ui/core/Checkbox';
+import { getEventsAscending } from '../../js/actions'
+import { getEventsDescending } from '../../js/actions'
 
 class ViewRestEvents extends Component {
 
@@ -15,7 +18,10 @@ class ViewRestEvents extends Component {
         this.state = {  
             events: [],
             noevents: true,
-            searchEvent: ""
+            allEvents: [],
+            searchEvent: "",
+            displaypage: [],
+            currentpage: [],
         }    
     }
 
@@ -23,7 +29,19 @@ class ViewRestEvents extends Component {
         setTimeout(() => {
             this.setState({
                 events : this.props.events,
+                allEvents: this.props.events,
                 noevents : false
+            })
+            var pages = Math.ceil(this.props.events.length / 2)
+                            this.setState({displaypage:[]})
+                            for(var j=1;j<=pages;j++){
+                                var joined = this.state.displaypage.concat(j);
+                                this.setState({
+                                    displaypage: joined
+                                })
+                            }
+            this.setState({
+                currentpage: this.props.events.slice(0,2)
             })
         }, 1)
         
@@ -43,6 +61,20 @@ class ViewRestEvents extends Component {
         this.setState({
             searchEvent :e.target.value
         })
+    }
+
+    submitEventsAscending = () =>{
+        const data = {
+            userid :  window.sessionStorage.getItem("UserID")
+        }
+        this.props.getEventsAscending(data)
+    }
+
+    submitEventsDescending = () =>{
+        const data = {
+            userid :  window.sessionStorage.getItem("UserID")
+        }
+        this.props.getEventsDescending(data)
     }
 
     submitEventSearch = () => {
@@ -66,8 +98,15 @@ class ViewRestEvents extends Component {
                     })
     }
 
-
-    
+    selectPage = (e) => {
+        var startIndex;
+        var endIndex;
+        startIndex = (e.target.value - 1)*2;
+        endIndex = e.target.value*2;
+        this.setState({
+            currentpage: this.state.allEvents.slice(startIndex, endIndex)
+        })
+    }
 
     render() {
         console.log(this.state)
@@ -92,9 +131,21 @@ class ViewRestEvents extends Component {
                                 <br></br>
                                 <Button style={{marginTop:60, backgroundColor:"#d32323", color: "white", borderRadius:3, borderWidth:0.2, height:30, width:230, fontWeight: "bold"}} onClick={this.submitRegisteredEvents}>Registered Events</Button>
                             </div>
+                            <div style={{marginLeft:60, marginTop:40}}>
+                                <Checkbox name="checkedB" onClick={this.submitEventsAscending} color="primary"/> Get Events By Ascending
+                                <br></br>
+                                <Checkbox name="checkedB" onClick={this.submitEventsDescending} color="primary"/> Get Events By Descending
+                            </div>
                         </div>
                         <div class="column-right-update">
-                            {this.state.events.map(i => {
+                            <div>
+                                    {this.state.displaypage.map(i => {
+                                    return(
+                                        <button style={{marginLeft: 30,borderRadius:100, borderWidth:0.5, backgroundColor:"#d32323", color:"white", fontWeight:"bold", marginBottom: 10}} onClick={this.selectPage} value={i}>{i}</button>
+                                    )
+                                })}
+                            </div>
+                            {this.state.currentpage.map(i => {
                                 console.log("event is ", i)
                                 return(
                                     <EventRegister event = {i} />
@@ -113,7 +164,9 @@ class ViewRestEvents extends Component {
 
 function mapDispatchToProps(dispatch){
     return{
-        restEvents: user => dispatch(restEvents(user))
+        restEvents: user => dispatch(restEvents(user)),
+        getEventsDescending: user => dispatch(getEventsDescending(user)),
+        getEventsAscending: user => dispatch(getEventsAscending(user))
     };
 }
 
@@ -121,6 +174,8 @@ function mapStateToProps(store){
     console.log(store);
     return{
         message: store.info,
+        message2: store.info1,
+        message3: store.info2,
         events: store.events
     };
 }

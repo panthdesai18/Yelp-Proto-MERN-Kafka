@@ -107,13 +107,13 @@ class RestOrders extends Component {
             temp=this.props.orderdetails.map(i => {
                 return (<div style ={{borderStyle:"solid", borderWidth:1 , width: 300, marginTop: 20, padding:10, borderRadius: 5, borderColor: "#cfcfcf"}}>
                             <p style={{fontWeight:"bold"}}>Order #{i._id}</p>
-                            <p style={{fontWeight:"bold", color:"#d32322"}} class="cust-link">User #{i.userid}</p>
+                            <p style={{fontWeight:"bold", color:"#d32322"}} class="cust-link">User : Darth Vader</p>
                             {                            
                                 // eslint-disable-next-line array-callback-return
                                 this.props.orders[0].map(j => {
                                     if(j.orderid === i._id){
                                         return(
-                                            <h4>{j.dishid}</h4>
+                                            <h4>Caesar Salad</h4>
                                         )
                                     }
                                 })

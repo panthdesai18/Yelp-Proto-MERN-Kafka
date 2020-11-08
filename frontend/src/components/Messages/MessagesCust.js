@@ -3,8 +3,10 @@ import HeaderBar from '../HeaderBar/HeaderBar'
 import { Image } from 'semantic-ui-react'
 import { Input } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { connect } from 'react-redux'
+import { sendMessageRest } from '../../js/actions'
 
 class MessagesCust extends Component {
 
@@ -31,13 +33,7 @@ class MessagesCust extends Component {
             message_side : "customer"
         }
         console.log(data)
-        axios.post('http://localhost:3001/sendMessage',data)
-                .then(response => {
-                    console.log("Status Code : ",response.status);
-                        if(response.status === 200){
-                          
-                        }
-                })
+        this.props.sendMessageRest(data)
     }
 
     componentDidMount(){
@@ -46,7 +42,7 @@ class MessagesCust extends Component {
             userid: this.props.match.params.userid,
             restid: window.sessionStorage.getItem("UserID"),
         }
-        console.log(data)    
+        console.log(data)   
         axios.post('http://localhost:3001/getMessage',data)
                 .then(response => {
                     console.log("Status Code : ",response.status);
@@ -77,13 +73,12 @@ class MessagesCust extends Component {
                                     <Image src="https://s3-media0.fl.yelpcdn.com/assets/srv0/yelp_styleguide/7e4e0dfd903f/assets/img/default_avatars/user_large_square.png" size='mini' />
                                 </div>
                                 <div class = "column-right-update-message">
-                                    <h3>Panth D.</h3>
+                                    <h3>The Cheescake Factory.</h3>
                                     San Jose, CA
                                 </div>
                             </div>
                         </div>
                         <div style={{textAlign:"center",color:"#666666"}}>
-                            10/13/2020, 3:47 PM
                         </div>
                         <div>
                         {   
@@ -103,7 +98,7 @@ class MessagesCust extends Component {
                         </div>
                         <div style={{position:"absolute", bottom:5,right:10}}>
                             <Input onChange={this.messageChangeHandler} icon="" placeholder='Your Message' style={{width:1000 ,marginLeft:40}}/>
-                            <span style={{color:"#d32323", marginLeft:-10}}><FontAwesomeIcon onClick={this.sendMessage} size = "lg" icon={faPaperPlane}/></span>
+                            <button onClick={this.sendMessage} style={{borderStyle:"none", color:"#d32323", marginLeft:-10}}><FontAwesomeIcon size = "lg" icon={faPaperPlane}/></button>
                         </div>
                     </div>
                 </div>
@@ -112,4 +107,18 @@ class MessagesCust extends Component {
     }
 }
 
-export default MessagesCust
+function mapDispatchToProps(dispatch){
+    return{
+        sendMessageRest: user => dispatch(sendMessageRest(user))
+    };
+}
+
+function mapStateToProps(store){
+    console.log(store);
+    return{
+        message: store.info,
+    };
+}
+
+const SendMessageCust = connect(mapStateToProps, mapDispatchToProps)(MessagesCust);
+export default SendMessageCust;

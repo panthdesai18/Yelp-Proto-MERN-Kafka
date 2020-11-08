@@ -14,16 +14,6 @@ exports.getUserOrders =  (req,res) => {
             console.log(result)
             res.end(JSON.stringify(result))
         }
-    })    
-    // console.log("Getting User Orders!")
-    // console.log(req.body)
-    // var user = "SELECT orderid,dishid,quantity from yelp_proto.orderdetails where orderid in (SELECT orderid FROM yelp_proto.order where userid ='"+req.body.userid+"'); "
-    // pool.query(user, (err, result) => {
-    //     if (err) throw err;
-    //     if(result.length > 0)
-    //     {
-    //         
-    //     }
-    // })
+    })
 }
 

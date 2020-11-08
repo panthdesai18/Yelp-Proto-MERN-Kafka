@@ -13,7 +13,11 @@ class CreatedEvents extends Component {
         this.state = {  
             events: [],
             visible : false,
-            user:[]
+            user:[],
+            allEvents: [],
+            searchEvent: "",
+            displaypage: [],
+            currentpage: []
         }
     }
 
@@ -37,6 +41,28 @@ class CreatedEvents extends Component {
         });
       };
 
+      componentWillReceiveProps(){
+        setTimeout(() => {
+            this.setState({
+                events : this.props.events,
+                allEvents: this.props.events,
+                noevents : false
+            })
+            var pages = Math.ceil(this.props.events.length / 2)
+                            this.setState({displaypage:[]})
+                            for(var j=1;j<=pages;j++){
+                                var joined = this.state.displaypage.concat(j);
+                                this.setState({
+                                    displaypage: joined
+                                })
+                            }
+            this.setState({
+                currentpage: this.props.events.slice(0,2)
+            })
+        }, 1)
+        
+    }
+
     componentDidMount(){
         var data = {
             userid :  window.sessionStorage.getItem("UserID"),
@@ -56,7 +82,15 @@ class CreatedEvents extends Component {
 
     }
 
-
+    selectPage = (e) => {
+        var startIndex;
+        var endIndex;
+        startIndex = (e.target.value - 1)*2;
+        endIndex = e.target.value*2;
+        this.setState({
+            currentpage: this.state.allEvents.slice(startIndex, endIndex)
+        })
+    }
 
     render() {
 
@@ -82,7 +116,7 @@ class CreatedEvents extends Component {
             })
         }
         if( this.props.events !== undefined){
-            temp = this.props.events.map( i => {
+            temp = this.state.currentpage.map( i => {
                 return(
                     <div>
                         <Card title = "Created Event" bordered={true} style={{ width: 300, borderStyle:"solid", borderWidth:1, marginTop:10, borderColor: "#cfcfcf", padding: 10, borderRadius: 5, fontWeight: "bold"}}>
@@ -108,6 +142,13 @@ class CreatedEvents extends Component {
                     </div>
                     <div class = "column-right-update">
                     <div>
+                        <div>
+                        {this.state.displaypage.map(i => {
+                                    return(
+                                        <button style={{marginLeft: 30,borderRadius:100, borderWidth:0.5, backgroundColor:"#d32323", color:"white", fontWeight:"bold", marginBottom: 10}} onClick={this.selectPage} value={i}>{i}</button>
+                                    )
+                                })}
+                        </div>
                         {temp}
                         {temp2}
                         </div>

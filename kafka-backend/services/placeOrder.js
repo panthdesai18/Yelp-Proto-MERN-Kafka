@@ -3,7 +3,7 @@ var Orders = require('../models/Orders')
 var OrderDetails = require('../models/OrderDetails')
 
 function handle_request(msg, callback){
-    console.log(msg.userid)
+    console.log(msg)
     console.log("Attempting Order Placing!")
     Cart.find({}, function(err, result, fields){
         if(err) throw err;
