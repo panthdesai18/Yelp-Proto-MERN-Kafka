@@ -1,1 +1,1 @@
-export const connURL = "http://localhost:3001";
+export const connURL = "http://3.236.150.43:3001";

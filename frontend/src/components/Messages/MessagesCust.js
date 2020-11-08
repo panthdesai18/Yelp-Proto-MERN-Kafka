@@ -43,7 +43,7 @@ class MessagesCust extends Component {
             restid: window.sessionStorage.getItem("UserID"),
         }
         console.log(data)   
-        axios.post('http://localhost:3001/getMessage',data)
+        axios.post('http://3.236.150.43:3001/getMessage',data)
                 .then(response => {
                     console.log("Status Code : ",response.status);
                         if(response.status === 200){
