@@ -1,6 +1,8 @@
 var Users = require('../models/User')
 const saltRounds = 10;
 const bcrypt = require('bcrypt')
+var jwt = require('jsonwebtoken')
+var passport = require('passport')
 
 function handle_request(msg, callback){
     console.log(msg)
@@ -29,9 +31,17 @@ function handle_request(msg, callback){
             else{
                 response_message = "Login Failed!"
             }
+            var token={
+                email: msg.username,
+                user: "user"
+                  }
+            var signed_token = jwt.sign(token, config.secret, {
+                expiresIn: 86400 // in seconds
+            });
             var pkg = {
                 response_message: response_message,
-                user_id: result[0]._id
+                user_id: result[0]._id,
+                token: signed_token
             }
             callback(null, pkg)
         })

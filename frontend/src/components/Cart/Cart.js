@@ -52,7 +52,7 @@ class Cart extends Component {
                 return(
                     <div>
                         <Card style={{width:350,borderStyle:"solid",borderWidth:1, marginTop: 10, borderRadius: 3, padding: 5, borderColor: "#cfcfcf"}}>
-                            <CardImg top width="100%" src = {`${connURL}/profimages/` + i.dishphoto} alt="Dish Image" />
+                            <CardImg top width="100%" src = {`http://3.236.150.43:3001/profimages/` + i.dishphoto} alt="Dish Image" />
                             <CardBody>
                                 <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{i.restaurant}</CardTitle>
                                 <CardSubtitle style={{fontSize:16,marginTop:10, color: "#d32323",fontWeight:"bold"}}>{i.dishname}</CardSubtitle>

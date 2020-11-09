@@ -68,7 +68,7 @@ class SignUp extends Component {
         //set the with credentials to true
         // axios.defaults.withCredentials = true;
         // //make a post request with the user data
-        // axios.post('http://localhost:3001/signUp',data)
+        // axios.post('http://3.236.150.43:3001/signUp',data)
         //     .then(response => {
         //         console.log("Status Code : ",response.status);
         //         if(response.status === 200){

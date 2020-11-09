@@ -30,9 +30,17 @@ function handle_request(msg, callback){
             else{
                 response_message = "Login Failed!"
             }
+            var token={
+                email: msg.username,
+                user: "restaurant"
+                  }
+            var signed_token = jwt.sign(token, config.secret, {
+                expiresIn: 86400 // in seconds
+            });
             var pkg = {
                 response_message: response_message,
-                user_id: result[0]._id
+                user_id: result[0]._id,
+                token: signed_token
             }
             callback(null, pkg)
         })

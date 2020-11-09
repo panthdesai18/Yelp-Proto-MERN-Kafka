@@ -94,7 +94,7 @@ export function custProfile(payload){
                         zipcode : response.data.zipcode,
                         ilove: response.data.ilove,
                         nickname : response.data.nickname,
-                        imageSrc : `${connURL}/profimages/`+response.data.profimage
+                        imageSrc : `http://3.236.150.43:3001/profimages/`+response.data.profimage
                     }
                 }else{
                 }
@@ -123,7 +123,7 @@ export function restProfile(payload){
                         firstname : response.data.restname,
                         email : response.data.email,
                         zipcode : response.data.zipcode,
-                        imageUrl : `${connURL}/profimages/`+response.data.restphoto
+                        imageUrl : `http://3.236.150.43:3001/profimages/`+response.data.restphoto
                     }
                 }else{
                 }
@@ -168,7 +168,7 @@ export function getProfile(payload){
                         zipcode : response.data.zipcode,
                         ilove: response.data.ilove,
                         nickname : response.data.nickname,
-                        imageSrc : `${connURL}/profimages/`+response.data.profimage
+                        imageSrc : `http://3.236.150.43:3001/profimages/`+response.data.profimage
                     }
                 }else{
                 }
@@ -206,7 +206,7 @@ export function postProfile(payload){
                         zipcode : payload.zipcode,
                         ilove: payload.ilove,
                         nickname : payload.nickname,
-                        //imageSrc : 'http://localhost:3001/profimages/'+payload.profimage
+                        //imageSrc : 'http://3.236.150.43:3001/profimages/'+payload.profimage
                     }
                     // window.location.replace('/custProfile')
                 }else{
@@ -332,7 +332,7 @@ export function postRestProfile(payload){
                         zipcode : payload.zipcode,
                         description : payload.description,
                         phno: payload.phno
-                        // imageSrc : 'http://localhost:3001/profimages/'+payload.profimage
+                        // imageSrc : 'http://3.236.150.43:3001/profimages/'+payload.profimage
                     }
                     window.location.href('/restProfile')
                 }else{

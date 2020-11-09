@@ -70,7 +70,7 @@ class ViewRest extends Component {
                 return(
                     <div style={{marginLeft:70}}>
                         <Card style={{width:375,borderStyle:"solid",borderWidth:1, padding: 5, borderColor:"#cfcfcf", borderRadius: 5}}>
-                            <CardImg top width="363" src = {`${connURL}/profimages/` + i.restphoto} alt="Dish Image" />
+                            <CardImg top width="363" src = {`http://3.236.150.43:3001/profimages/` + i.restphoto} alt="Dish Image" />
                             <CardBody>
                             <CardTitle style={{color:"#D32323", fontWeight:"bold",fontSize:18}}>{i.restname}</CardTitle>
                             <CardSubtitle style={{fontSize:16,marginTop:10}}>{i.email}</CardSubtitle>

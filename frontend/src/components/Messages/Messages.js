@@ -34,7 +34,7 @@ class Messages extends Component {
         }
         console.log(data)
         this.props.sendMessageRest(data)
-//         axios.post('http://localhost:3001/sendMessage',data)
+//         axios.post('http://3.236.150.43:3001/sendMessage',data)
 //                 .then(response => {
 //                     console.log("Status Code : ",response.status);
 //                         if(response.status === 200){

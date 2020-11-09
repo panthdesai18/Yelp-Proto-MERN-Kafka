@@ -35,7 +35,7 @@ class HeaderBar extends Component {
                     this.setState({
                         firstname : response.data.firstname,   
                         lastname : response.data.lastname,
-                        imageSrc : `${connURL}/profimages/`+response.data.profimage           
+                        imageSrc : `http://3.236.150.43:3001/profimages/`+response.data.profimage           
                     },() => {
                         console.log(this.state.imageSrc)
                     } );
